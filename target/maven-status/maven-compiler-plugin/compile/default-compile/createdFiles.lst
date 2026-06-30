@@ -1,6 +1,8 @@
-ParsedPacket.class
+com\ankit\deeppacketinspection\model\ProtocolType.class
 com\ankit\deeppacketinspection\capture\PacketCaptureService.class
-com\ankit\deeppacketinspection\model\Packet.class
-ProtocolType.class
+com\ankit\deeppacketinspection\model\ParsedPacket.class
 com\ankit\deeppacketinspection\parser\PacketParserService.class
-FiveTuple.class
+com\ankit\deeppacketinspection\Main.class
+com\ankit\deeppacketinspection\model\PacketData.class
+com\ankit\deeppacketinspection\utils\PacketUtils.class
+com\ankit\deeppacketinspection\model\FiveTuple.class
