@@ -38,3 +38,12 @@ The format is inspired by **Keep a Changelog**, and the project follows semantic
 * Read packets from PCAP files
 * Integrate Pcap4J
 * Parse Ethernet frames
+
+## [0.1.1] - System Architecture Documentation
+
+### Added
+
+- Completed High-Level System Architecture (HLD)
+- Defined packet processing pipeline
+- Documented module responsibilities
+- Added design principles and future architecture roadmap
