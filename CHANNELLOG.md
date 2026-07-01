@@ -47,3 +47,14 @@ The format is inspired by **Keep a Changelog**, and the project follows semantic
 - Defined packet processing pipeline
 - Documented module responsibilities
 - Added design principles and future architecture roadmap
+
+## [0.3.0] - Packet Capture Module
+
+### Added
+
+- Implemented PacketCaptureService
+- Integrated Pcap4J with Npcap
+- Added PCAP file validation
+- Implemented packet reading loop
+- Added packet counting
+- Added lifecycle logging

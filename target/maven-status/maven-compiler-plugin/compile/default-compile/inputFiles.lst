@@ -4,5 +4,10 @@ C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\c
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\model\PacketData.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\model\ParsedPacket.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\model\ProtocolType.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\parser\EthernetParser.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\parser\IPv4Parser.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\parser\PacketParserService.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\parser\ParserUtils.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\parser\TcpParser.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\parser\UdpParser.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\src\main\java\com\ankit\deeppacketinspection\utils\PacketUtils.java

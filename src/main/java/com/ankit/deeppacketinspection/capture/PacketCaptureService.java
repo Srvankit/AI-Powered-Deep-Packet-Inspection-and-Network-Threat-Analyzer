@@ -142,14 +142,14 @@ public class PacketCaptureService {
     packetCounter++;
 
     PacketData packetData =
-            new PacketData(bufferedPacket,
+            new PacketData(
+                    bufferedPacket,
                     System.currentTimeMillis());
 
     bufferedPacket = null;
 
     return packetData;
 }
-
     /**
      * Closes the currently opened PCAP file.
      */
