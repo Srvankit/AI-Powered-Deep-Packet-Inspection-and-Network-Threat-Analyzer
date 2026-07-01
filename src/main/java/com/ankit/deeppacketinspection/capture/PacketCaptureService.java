@@ -40,6 +40,8 @@ public class PacketCaptureService {
 
     private String currentFilePath;
 
+    private org.pcap4j.packet.Packet bufferedPacket;
+
     /**
      * Default constructor.
      */
@@ -47,6 +49,7 @@ public class PacketCaptureService {
         this.opened = false;
         this.packetCounter = 0;
         this.currentFilePath = null;
+        this.bufferedPacket = null;
     }
 
     /**
@@ -100,8 +103,29 @@ public class PacketCaptureService {
      * Will be completed in the next milestone.
      */
     public boolean hasNextPacket() {
+
+    if (!opened || handle == null) {
         return false;
     }
+
+    if (bufferedPacket != null) {
+        return true;
+    }
+
+    try {
+
+        bufferedPacket = handle.getNextPacket();
+
+        return bufferedPacket != null;
+
+    } catch (Exception e) {
+
+        logger.error("Unable to read next packet.", e);
+
+        return false;
+
+    }
+}
 
     /**
      * Reads the next packet.
@@ -110,8 +134,21 @@ public class PacketCaptureService {
      * Will be completed in the next milestone.
      */
     public PacketData readNextPacket() {
+
+    if (!hasNextPacket()) {
         return null;
     }
+
+    packetCounter++;
+
+    PacketData packetData =
+            new PacketData(bufferedPacket,
+                    System.currentTimeMillis());
+
+    bufferedPacket = null;
+
+    return packetData;
+}
 
     /**
      * Closes the currently opened PCAP file.
