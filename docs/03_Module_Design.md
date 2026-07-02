@@ -461,6 +461,55 @@ The module design follows these principles:
 
 ---
 
+# Current Processing Pipeline
+
+The Deep Packet Inspection engine now follows a layered packet-processing pipeline.
+
+```
+PCAP File
+      │
+      ▼
+PacketCaptureService
+      │
+      ▼
+PacketData
+      │
+      ▼
+EthernetParser
+      │
+      ▼
+IpParser
+      │
+      ├──────────────┐
+      ▼              ▼
+IPv4Parser      IPv6Parser
+      │
+      ▼
+Transport Layer
+      │
+      ├──────────────┐
+      ▼              ▼
+TCPParser       UDPParser
+      │
+      ▼
+Application Layer
+      │
+      ├──────────────┐
+      ▼              ▼
+TLSParser      HTTPParser
+```
+
+### Completed Modules
+
+- Packet Capture Service
+- Ethernet Parser
+
+### Under Development
+
+- IP Layer
+- Transport Layer
+- TLS Inspection
+
 # Conclusion
 
 The Low-Level Design provides a detailed blueprint for implementing every module in the DPI engine. Each component has a clearly defined responsibility, allowing independent development, testing, and future enhancements while maintaining a clean and scalable architecture.
