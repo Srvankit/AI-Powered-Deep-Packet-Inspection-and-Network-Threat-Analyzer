@@ -55,49 +55,44 @@ public class DpiEngine {
     captureService.closePcapFile();
 
 }
-    private void printPacket(ParsedPacket packet) {
 
-    System.out.println("--------------------------------");
+private void printPacket(ParsedPacket packet) {
 
-    System.out.println("Source MAC : "
-            + packet.getSourceMac());
-
-    System.out.println("Destination MAC : "
-            + packet.getDestinationMac());
-
-    if (packet.getIpVersion() != 0) {
-
-        System.out.println("IP Version : "
-                + packet.getIpVersion());
-
-        System.out.println("Source IP : "
-                + packet.getSourceIp());
-
-        System.out.println("Destination IP : "
-                + packet.getDestinationIp());
-
-        if (packet.getIpVersion() == 4) {
-
-            System.out.println("TTL : "
-                    + packet.getTtl());
-
-        } else {
-
-            System.out.println("Hop Limit : "
-                    + packet.getHopLimit());
-
-        }
-
-        System.out.println("Transport Protocol : "
-                + packet.getTransportProtocol());
-
+    if (packet == null) {
+        System.out.println("Parsed packet is null.");
+        return;
     }
 
-    System.out.println("Packet Length : "
-            + packet.getPacketLength());
+    System.out.println("\n====================================================");
+    System.out.println("                PACKET INFORMATION");
+    System.out.println("====================================================");
 
-    System.out.println("--------------------------------");
+    // ---------------- Ethernet Layer ----------------
+    System.out.println("[Ethernet Layer]");
+    System.out.println("Source MAC          : " + packet.getSourceMac());
+    System.out.println("Destination MAC     : " + packet.getDestinationMac());
+    System.out.println("Packet Length       : " + packet.getPacketLength() + " bytes");
+
+    // ---------------- IP Layer ----------------
+    if (packet.getIpVersion() != 0) {
+
+        System.out.println("\n[Network Layer]");
+
+        System.out.println("IP Version          : IPv" + packet.getIpVersion());
+        System.out.println("Source IP           : " + packet.getSourceIp());
+        System.out.println("Destination IP      : " + packet.getDestinationIp());
+
+        if (packet.getIpVersion() == 4) {
+            System.out.println("TTL                 : " + packet.getTtl());
+        }
+
+        if (packet.getIpVersion() == 6) {
+            System.out.println("Hop Limit           : " + packet.getHopLimit());
+        }
+
+        System.out.println("Transport Protocol  : " + packet.getTransportProtocol());
+    }
+    System.out.println("====================================================\n");
 }
-
 
 }

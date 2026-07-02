@@ -23,7 +23,9 @@ public class IpParser {
 
             ipv4Parser.parse(packetData, parsedPacket);
 
-        } else if (ethernetPacket.getPayload() instanceof IpV6Packet) {
+        }
+
+        else if (ethernetPacket.getPayload() instanceof IpV6Packet) {
 
             ipv6Parser.parse(packetData, parsedPacket);
 

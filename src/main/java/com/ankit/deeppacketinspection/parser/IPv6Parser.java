@@ -10,33 +10,33 @@ public class IPv6Parser {
     public void parse(PacketData packetData,
                       ParsedPacket parsedPacket) {
 
-        EthernetPacket ethernetPacket =
-                (EthernetPacket) packetData.getPacket();
+        if (!(packetData.getPacket() instanceof EthernetPacket ethernetPacket)) {
+            return;
+        }
 
-        IpV6Packet ipv6 =
-                (IpV6Packet) ethernetPacket.getPayload();
+        if (!(ethernetPacket.getPayload() instanceof IpV6Packet ipv6Packet)) {
+            return;
+        }
 
         parsedPacket.setIpVersion(6);
 
         parsedPacket.setSourceIp(
-                ipv6.getHeader()
+                ipv6Packet.getHeader()
                         .getSrcAddr()
                         .getHostAddress());
 
         parsedPacket.setDestinationIp(
-                ipv6.getHeader()
+                ipv6Packet.getHeader()
                         .getDstAddr()
                         .getHostAddress());
 
         parsedPacket.setHopLimit(
-                ipv6.getHeader()
+                ipv6Packet.getHeader()
                         .getHopLimitAsInt());
 
         parsedPacket.setTransportProtocol(
-                ipv6.getHeader()
+                ipv6Packet.getHeader()
                         .getNextHeader()
                         .name());
-
     }
-
 }
