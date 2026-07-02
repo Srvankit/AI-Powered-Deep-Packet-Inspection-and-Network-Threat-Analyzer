@@ -24,6 +24,92 @@ public class ParsedPacket {
 
     private String transportProtocol;
 
+    /* ---------- Transport Layer ---------- */
+
+    private int sourcePort;
+
+    private int destinationPort;
+
+    private long sequenceNumber;
+
+        private long acknowledgementNumber;
+
+    private boolean syn;
+
+    private boolean ack;
+
+    private boolean fin;
+
+    private boolean rst;
+
+    private boolean psh;
+
+    private boolean urg;
+
+    public long getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    public void setSequenceNumber(long sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    public long getAcknowledgementNumber() {
+        return acknowledgementNumber;
+    }
+
+    public void setAcknowledgementNumber(long acknowledgementNumber) {
+        this.acknowledgementNumber = acknowledgementNumber;
+    }
+
+    public boolean isSyn() {
+        return syn;
+    }
+
+    public void setSyn(boolean syn) {
+        this.syn = syn;
+    }
+
+    public boolean isAck() {
+        return ack;
+    }
+
+    public void setAck(boolean ack) {
+        this.ack = ack;
+    }
+
+    public boolean isFin() {
+        return fin;
+    }
+
+    public void setFin(boolean fin) {
+        this.fin = fin;
+    }
+
+    public boolean isRst() {
+        return rst;
+    }
+
+    public void setRst(boolean rst) {
+        this.rst = rst;
+    }
+
+    public boolean isPsh() {
+        return psh;
+    }
+
+    public void setPsh(boolean psh) {
+        this.psh = psh;
+    }
+
+    public boolean isUrg() {
+        return urg;
+    }
+
+    public void setUrg(boolean urg) {
+        this.urg = urg;
+    }
+
     public ParsedPacket() {
     }
 
@@ -113,5 +199,21 @@ public class ParsedPacket {
 
     public void setTransportProtocol(String transportProtocol){
         this.transportProtocol = transportProtocol;
+    }
+
+    public int getSourcePort(){
+        return sourcePort;
+    }
+
+    public void getSourcePort(int sourcePort){
+        this.sourcePort = sourcePort;
+    }
+
+    public int getDestinationPort(){
+        return destinationPort;
+    }
+
+    public void setDestinationPort(int destinationPort){
+        this.destinationPort = destinationPort;
     }
 }

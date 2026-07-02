@@ -172,6 +172,9 @@ Current project completion: **~50%**
 - IPv6 Parser
 - TCP Parser
 - UDP Parser
+- Transport Layer packet parsing
+- Source Port extraction
+- Destination Port extraction
 
 ## v0.6.0
 - TLS Parser
