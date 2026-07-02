@@ -16,6 +16,14 @@ public class ParsedPacket {
 
     private long timestamp;
 
+    private int ipVersion;
+
+    private int ttl;
+
+    private int hopLimit;
+
+    private String transportProtocol;
+
     public ParsedPacket() {
     }
 
@@ -73,5 +81,37 @@ public class ParsedPacket {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getIpVersion(){
+        return ipVersion;
+    }
+
+    public void setIpVersion(int ipVersion){
+        this.ipVersion = ipVersion;
+    }
+
+    public int getTtl(){
+        return ttl;
+    }
+
+    public void setTtl(int ttl){
+        this.ttl = ttl;
+    }
+
+    public int getHopLimit(){
+        return hopLimit;
+    }
+
+    public void setHopLimit(int hopLimit){
+        this.hopLimit = hopLimit;
+    }
+
+    public String getTransportProtocol(){
+        return transportProtocol;
+    }
+
+    public void setTransportProtocol(String transportProtocol){
+        this.transportProtocol = transportProtocol;
     }
 }
