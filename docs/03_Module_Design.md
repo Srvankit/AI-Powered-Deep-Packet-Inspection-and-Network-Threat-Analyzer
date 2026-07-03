@@ -497,7 +497,24 @@ Application Layer
       ├──────────────┐
       ▼              ▼
 TLSParser      HTTPParser
+
 ```
+## Transport Layer
+
+The Transport Layer is responsible for decoding Layer 4 protocols.
+
+### Components
+
+- TransportParser
+- TcpParser
+- UdpParser
+
+### Responsibilities
+
+- Dispatch packets based on transport protocol
+- Extract transport metadata
+- Populate ParsedPacket with Layer 4 information
+
 
 ### Completed Modules
 
@@ -506,8 +523,6 @@ TLSParser      HTTPParser
 
 ### Under Development
 
-- IP Layer
-- Transport Layer
 - TLS Inspection
 
 # Conclusion

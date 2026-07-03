@@ -32,7 +32,9 @@ public class ParsedPacket {
 
     private long sequenceNumber;
 
-        private long acknowledgementNumber;
+    private int transportLength;
+
+    private long acknowledgementNumber;
 
     private boolean syn;
 
@@ -45,6 +47,24 @@ public class ParsedPacket {
     private boolean psh;
 
     private boolean urg;
+
+    private int windowSize;
+    
+    public int getWindowSize() {
+        return windowSize;
+    }
+
+    public void setWindowSize(int windowSize) {
+        this.windowSize = windowSize;
+    }
+
+    public int getTransportLength() {
+        return transportLength;
+    }
+
+    public void setTransportLength(int transportLength) {
+        this.transportLength = transportLength;
+    }
 
     public long getSequenceNumber() {
         return sequenceNumber;
@@ -205,7 +225,7 @@ public class ParsedPacket {
         return sourcePort;
     }
 
-    public void getSourcePort(int sourcePort){
+    public void setSourcePort(int sourcePort){
         this.sourcePort = sourcePort;
     }
 
