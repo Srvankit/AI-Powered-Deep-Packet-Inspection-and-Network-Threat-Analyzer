@@ -55,7 +55,10 @@ public class TcpParser {
                 tcpPacket.getHeader().getSequenceNumber());
 
         parsedPacket.setAcknowledgementNumber(
-                tcpPacket.getHeader().getAcknowledgmentNumber());
+                Integer.toUnsignedLong(
+                        tcpPacket.getHeader().getAcknowledgmentNumber()
+                )
+                );
 
         parsedPacket.setWindowSize(
                 tcpPacket.getHeader().getWindowAsInt());

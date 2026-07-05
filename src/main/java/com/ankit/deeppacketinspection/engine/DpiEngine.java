@@ -4,6 +4,8 @@ import com.ankit.deeppacketinspection.capture.PacketCaptureService;
 import com.ankit.deeppacketinspection.model.PacketData;
 import com.ankit.deeppacketinspection.model.ParsedPacket;
 import com.ankit.deeppacketinspection.parser.PacketParserService;
+import com.ankit.deeppacketinspection.flow.FlowManager;
+import com.ankit.deeppacketinspection.model.Flow;
 
 import java.nio.file.Path;
 
@@ -31,11 +33,15 @@ public class DpiEngine {
 
     private final PacketParserService parserService;
 
+    private final FlowManager flowManager;
+
     public DpiEngine() {
 
         this.captureService = new PacketCaptureService();
 
         this.parserService = new PacketParserService();
+
+        this.flowManager = new FlowManager();
 
     }
 
@@ -66,7 +72,10 @@ public class DpiEngine {
             ParsedPacket parsedPacket =
                     parserService.parse(packet);
 
-            printPacket(parsedPacket);
+            Flow flow =
+                    flowManager.processPacket(parsedPacket);
+
+            printPacket(parsedPacket, flow);
 
         }
 
@@ -79,7 +88,7 @@ public class DpiEngine {
      *
      * @param packet Parsed packet.
      */
-    private void printPacket(ParsedPacket packet) {
+    private void printPacket(ParsedPacket packet, Flow flow) {
 
         if (packet == null) {
             return;
@@ -123,7 +132,7 @@ public class DpiEngine {
 
             }
 
-            System.out.println("Transport Protocol  : "
+            System.out.println("Next Protocol       : "
                     + packet.getTransportProtocol());
 
         }
@@ -147,8 +156,13 @@ public class DpiEngine {
                 System.out.println("Destination Port    : "
                         + packet.getDestinationPort());
 
-                System.out.println("Transport Length    : "
-                        + packet.getTransportLength());
+                // Only UDP packets have a transport length field
+                if ("UDP".equalsIgnoreCase(packet.getTransportProtocol())) {
+
+                    System.out.println("Transport Length    : "
+                            + packet.getTransportLength());
+
+    }
 
             }
 
@@ -182,6 +196,26 @@ public class DpiEngine {
                 System.out.println("URG                 : " + packet.isUrg());
 
             }
+
+        }
+        
+        System.out.println();
+
+        System.out.println("[Flow Information]");
+
+        if (flow != null) {
+
+            System.out.println("Flow Key           : "
+                    + flow.getFiveTuple());
+
+            System.out.println("Packets In Flow    : "
+                    + flow.getPacketCount());
+
+            System.out.println("Bytes In Flow      : "
+                    + flow.getByteCount());
+
+            System.out.println("Flow Duration      : "
+                    + flow.getDuration() + " ms");
 
         }
 

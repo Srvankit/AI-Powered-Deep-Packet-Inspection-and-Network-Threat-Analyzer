@@ -30,8 +30,6 @@ public class TransportParser {
             return;
         }
 
-        System.out.println("Protocol received by TransportParser: " + protocol);
-
         switch (protocol.toUpperCase()) {
 
             case "TCP" -> tcpParser.parse(packetData, parsedPacket);
