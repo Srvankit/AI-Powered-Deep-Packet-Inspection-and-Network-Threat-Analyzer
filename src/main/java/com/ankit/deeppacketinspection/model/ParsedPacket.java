@@ -49,6 +49,66 @@ public class ParsedPacket {
     private boolean urg;
 
     private int windowSize;
+
+    private String applicationProtocol;
+
+    private String hostName;
+
+    private String url;
+
+    private String dnsQuery;
+
+    private String tlsVersion;
+
+    private String cipherSuite;
+
+    public String getApplicationProtocol() {
+        return applicationProtocol;
+    }
+
+    public void setApplicationProtocol(String applicationProtocol) {
+        this.applicationProtocol = applicationProtocol;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDnsQuery() {
+        return dnsQuery;
+    }
+
+    public void setDnsQuery(String dnsQuery) {
+        this.dnsQuery = dnsQuery;
+    }
+
+    public String getTlsVersion() {
+        return tlsVersion;
+    }
+
+    public void setTlsVersion(String tlsVersion) {
+        this.tlsVersion = tlsVersion;
+    }
+
+    public String getCipherSuite() {
+        return cipherSuite;
+    }
+
+    public void setCipherSuite(String cipherSuite) {
+        this.cipherSuite = cipherSuite;
+    }
     
     public int getWindowSize() {
         return windowSize;

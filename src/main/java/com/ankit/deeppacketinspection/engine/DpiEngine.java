@@ -198,6 +198,27 @@ public class DpiEngine {
             }
 
         }
+
+        /* ---------------- Application Layer ---------------- */
+
+        if (packet.getApplicationProtocol() != null) {
+
+            System.out.println();
+
+            System.out.println("[Application Layer]");
+
+            System.out.println("Protocol            : "
+                    + packet.getApplicationProtocol());
+
+        if (packet.getTlsVersion() != null) {
+
+            System.out.println("TLS Version         : "
+                    + packet.getTlsVersion());
+
+            }
+        }
+
+        /* ---------------- FLOW Information Layer ---------------- */
         
         System.out.println();
 

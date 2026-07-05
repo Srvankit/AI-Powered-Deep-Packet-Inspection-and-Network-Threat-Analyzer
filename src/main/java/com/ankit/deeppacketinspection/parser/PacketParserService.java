@@ -11,6 +11,8 @@ public class PacketParserService {
 
     private final TransportParser transportParser;
 
+    private final ApplicationParser applicationParser;
+
     public PacketParserService() {
 
         this.ethernetParser = new EthernetParser();
@@ -18,6 +20,8 @@ public class PacketParserService {
         this.ipParser = new IpParser();
 
         this.transportParser = new TransportParser();
+
+        this.applicationParser = new ApplicationParser();
 
     }
 
@@ -30,6 +34,8 @@ public class PacketParserService {
         ipParser.parse(packetData, parsedPacket);
 
         transportParser.parse(packetData, parsedPacket);
+
+        applicationParser.parse(packetData, parsedPacket);
 
         return parsedPacket;
 
