@@ -6,6 +6,8 @@ import com.ankit.deeppacketinspection.model.ParsedPacket;
 import com.ankit.deeppacketinspection.parser.PacketParserService;
 import com.ankit.deeppacketinspection.flow.FlowManager;
 import com.ankit.deeppacketinspection.model.Flow;
+import com.ankit.deeppacketinspection.analysis.StatisticsEngine;
+import com.ankit.deeppacketinspection.analysis.StatisticsPrinter;
 
 import java.nio.file.Path;
 
@@ -35,6 +37,10 @@ public class DpiEngine {
 
     private final FlowManager flowManager;
 
+    private final StatisticsEngine statisticsEngine;
+
+    private final StatisticsPrinter statisticsPrinter;
+
     public DpiEngine() {
 
         this.captureService = new PacketCaptureService();
@@ -42,6 +48,10 @@ public class DpiEngine {
         this.parserService = new PacketParserService();
 
         this.flowManager = new FlowManager();
+
+        this.statisticsEngine = new StatisticsEngine();
+
+        this.statisticsPrinter = new StatisticsPrinter();
 
     }
 
@@ -79,10 +89,16 @@ public class DpiEngine {
 
             Flow flow = flowManager.processPacket(parsedPacket);
 
+            statisticsEngine.update(parsedPacket, flow);
+
                 printPacket(parsedPacket, flow);
         }
 
         captureService.closePcapFile();
+
+        statisticsPrinter.print(
+                statisticsEngine.getStatistics()
+        );
 
     }
 
