@@ -10,6 +10,9 @@ import com.ankit.deeppacketinspection.analysis.StatisticsEngine;
 import com.ankit.deeppacketinspection.analysis.StatisticsPrinter;
 import com.ankit.deeppacketinspection.analysis.ThreatDetector;
 import com.ankit.deeppacketinspection.analysis.ThreatPrinter;
+import com.ankit.deeppacketinspection.report.TextReportGenerator;
+import com.ankit.deeppacketinspection.report.JsonReportGenerator;
+import java.io.IOException;
 
 import java.nio.file.Path;
 
@@ -47,7 +50,9 @@ public class DpiEngine {
 
     private final StatisticsPrinter statisticsPrinter;
 
-    
+    private final TextReportGenerator textReportGenerator;
+
+    private final JsonReportGenerator jsonReportGenerator;
 
     public DpiEngine() {
 
@@ -64,6 +69,10 @@ public class DpiEngine {
         this.statisticsEngine = new StatisticsEngine();
 
         this.statisticsPrinter = new StatisticsPrinter();
+
+        this.textReportGenerator = new TextReportGenerator();
+
+        this.jsonReportGenerator = new JsonReportGenerator();
 
     }
 
@@ -127,6 +136,27 @@ public class DpiEngine {
         /* ---------------- Threat Report ---------------- */
 
         threatPrinter.print(threatDetector);
+
+        try {
+
+                textReportGenerator.generate(
+                        statisticsEngine.getStatistics(),
+                        threatDetector);
+
+                jsonReportGenerator.generate(
+                        statisticsEngine.getStatistics(),
+                        threatDetector);
+
+                System.out.println();
+                System.out.println("Reports generated successfully.");
+
+                } catch (IOException e) {
+
+                System.err.println("Failed to generate reports.");
+
+                e.printStackTrace();
+
+                }
 
     }
 

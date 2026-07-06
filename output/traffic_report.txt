@@ -1,0 +1,42 @@
+====================================================
+        AI POWERED DEEP PACKET INSPECTION
+                 TRAFFIC REPORT
+====================================================
+
+Generated On : 06-07-2026 11:31:39
+
+GENERAL STATISTICS
+--------------------------------------------
+Total Packets      : 2130
+Total Bytes        : 1515821
+Total Flows        : 94
+
+NETWORK
+--------------------------------------------
+IPv4 Packets       : 0
+IPv6 Packets       : 2130
+
+TRANSPORT
+--------------------------------------------
+TCP Packets        : 1723
+UDP Packets        : 403
+
+APPLICATION
+--------------------------------------------
+HTTP Packets       : 0
+HTTPS Packets      : 2097
+DNS Packets        : 19
+
+THREAT SUMMARY
+--------------------------------------------
+Large Packet Alerts      : 763
+DNS Alerts               : 19
+Suspicious Port Alerts   : 0
+SYN Flood Alerts         : 24
+Port Scan Alerts         : 0
+--------------------------------------------
+Total Alerts             : 806
+
+====================================================
+End of Report
+====================================================
