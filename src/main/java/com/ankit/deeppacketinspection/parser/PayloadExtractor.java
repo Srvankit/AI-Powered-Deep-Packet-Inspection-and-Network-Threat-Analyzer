@@ -7,6 +7,8 @@ public class PayloadExtractor {
 
     public byte[] extract(PacketData packetData) {
 
+        System.out.println("---> PAYLAOD EXTRACTED <----");
+
     if (packetData == null) {
         System.out.println("PacketData is NULL");
         return null;

@@ -72,11 +72,14 @@ public class DpiEngine {
             ParsedPacket parsedPacket =
                     parserService.parse(packet);
 
-            Flow flow =
-                    flowManager.processPacket(parsedPacket);
+            // Skip packets that don't have an IP layer
+            if (parsedPacket.getIpVersion() == 0) {
+                continue;
+                }
 
-            printPacket(parsedPacket, flow);
+            Flow flow = flowManager.processPacket(parsedPacket);
 
+                printPacket(parsedPacket, flow);
         }
 
         captureService.closePcapFile();
@@ -219,29 +222,29 @@ public class DpiEngine {
         }
 
         /* ---------------- FLOW Information Layer ---------------- */
-        
-        System.out.println();
 
-        System.out.println("[Flow Information]");
+if (flow != null) {
 
-        if (flow != null) {
+    System.out.println();
 
-            System.out.println("Flow Key           : "
-                    + flow.getFiveTuple());
+    System.out.println("[Flow Information]");
 
-            System.out.println("Packets In Flow    : "
-                    + flow.getPacketCount());
+    System.out.println("Flow Key           : "
+            + flow.getFiveTuple());
 
-            System.out.println("Bytes In Flow      : "
-                    + flow.getByteCount());
+    System.out.println("Packets In Flow    : "
+            + flow.getPacketCount());
 
-            System.out.println("Flow Duration      : "
-                    + flow.getDuration() + " ms");
+    System.out.println("Bytes In Flow      : "
+            + flow.getByteCount());
+
+    System.out.println("Flow Duration      : "
+            + flow.getDuration() + " ms");
+
+}
+
+System.out.println("====================================================");
 
         }
-
-        System.out.println("====================================================");
-
-    }
 
 }

@@ -10,8 +10,15 @@ import com.ankit.deeppacketinspection.model.ParsedPacket;
  * Responsible for creating and maintaining
  * active network flows.
  *
+ * Each packet is mapped to a FiveTuple.
+ * Existing flows are updated, while new
+ * flows are created automatically.
+ *
+ * Invalid packets (without IP addresses or
+ * transport protocol) are ignored.
+ *
  * Author: Ankit Yadav
- * Version: 1.0
+ * Version: 1.1
  */
 public class FlowManager {
 
@@ -26,16 +33,32 @@ public class FlowManager {
     /**
      * Processes a parsed packet.
      *
-     * Finds an existing flow or creates a new one.
-     *
      * @param packet Parsed packet.
-     * @return Active flow.
+     * @return Active flow or null if packet
+     *         cannot form a valid flow.
      */
     public Flow processPacket(ParsedPacket packet) {
 
         if (packet == null) {
             return null;
         }
+
+        // -----------------------------
+        // Validate Flow Information
+        // -----------------------------
+
+        if (packet.getSourceIp() == null
+                || packet.getDestinationIp() == null
+                || packet.getTransportProtocol() == null
+                || packet.getTransportProtocol().isBlank()) {
+
+            return null;
+
+        }
+
+        // -----------------------------
+        // Create Flow Key
+        // -----------------------------
 
         FiveTuple key = new FiveTuple(
                 packet.getSourceIp(),
@@ -45,7 +68,15 @@ public class FlowManager {
                 packet.getTransportProtocol()
         );
 
+        // -----------------------------
+        // Find Existing Flow
+        // -----------------------------
+
         Flow flow = flowTable.getFlow(key);
+
+        // -----------------------------
+        // Create New Flow
+        // -----------------------------
 
         if (flow == null) {
 
@@ -55,6 +86,10 @@ public class FlowManager {
 
         }
 
+        // -----------------------------
+        // Update Statistics
+        // -----------------------------
+
         flow.update(packet.getPacketLength());
 
         return flow;
@@ -62,7 +97,9 @@ public class FlowManager {
     }
 
     /**
-     * Returns the current flow table.
+     * Returns the current FlowTable.
+     *
+     * @return FlowTable instance.
      */
     public FlowTable getFlowTable() {
 
