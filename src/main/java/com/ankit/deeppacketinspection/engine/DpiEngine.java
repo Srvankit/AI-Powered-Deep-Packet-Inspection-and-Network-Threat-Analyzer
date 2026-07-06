@@ -8,6 +8,8 @@ import com.ankit.deeppacketinspection.flow.FlowManager;
 import com.ankit.deeppacketinspection.model.Flow;
 import com.ankit.deeppacketinspection.analysis.StatisticsEngine;
 import com.ankit.deeppacketinspection.analysis.StatisticsPrinter;
+import com.ankit.deeppacketinspection.analysis.ThreatDetector;
+import com.ankit.deeppacketinspection.analysis.ThreatPrinter;
 
 import java.nio.file.Path;
 
@@ -37,9 +39,15 @@ public class DpiEngine {
 
     private final FlowManager flowManager;
 
+    private final ThreatDetector threatDetector;
+
+    private final ThreatPrinter threatPrinter;
+
     private final StatisticsEngine statisticsEngine;
 
     private final StatisticsPrinter statisticsPrinter;
+
+    
 
     public DpiEngine() {
 
@@ -48,6 +56,10 @@ public class DpiEngine {
         this.parserService = new PacketParserService();
 
         this.flowManager = new FlowManager();
+
+        this.threatDetector = new ThreatDetector();
+
+        this.threatPrinter = new ThreatPrinter();
 
         this.statisticsEngine = new StatisticsEngine();
 
@@ -89,16 +101,32 @@ public class DpiEngine {
 
             Flow flow = flowManager.processPacket(parsedPacket);
 
-            statisticsEngine.update(parsedPacket, flow);
+            /* ---------------- Statistics ---------------- */
+
+                statisticsEngine.update(parsedPacket, flow);
+
+                /* ---------------- Threat Detection ---------------- */
+
+                threatDetector.analyze(parsedPacket);
+
+                /* ---------------- Console Output ---------------- */
 
                 printPacket(parsedPacket, flow);
         }
 
         captureService.closePcapFile();
 
+        captureService.closePcapFile();
+
+/* ---------------- Statistics ---------------- */
+
         statisticsPrinter.print(
                 statisticsEngine.getStatistics()
         );
+
+        /* ---------------- Threat Report ---------------- */
+
+        threatPrinter.print(threatDetector);
 
     }
 
