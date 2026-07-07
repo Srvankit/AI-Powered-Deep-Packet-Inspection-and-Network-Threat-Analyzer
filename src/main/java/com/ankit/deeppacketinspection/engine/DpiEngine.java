@@ -5,6 +5,7 @@ import com.ankit.deeppacketinspection.model.PacketData;
 import com.ankit.deeppacketinspection.model.ParsedPacket;
 import com.ankit.deeppacketinspection.parser.PacketParserService;
 import com.ankit.deeppacketinspection.flow.FlowManager;
+import com.ankit.deeppacketinspection.model.AnalysisResult;
 import com.ankit.deeppacketinspection.model.Flow;
 import com.ankit.deeppacketinspection.analysis.StatisticsEngine;
 import com.ankit.deeppacketinspection.analysis.StatisticsPrinter;
@@ -13,6 +14,7 @@ import com.ankit.deeppacketinspection.analysis.ThreatPrinter;
 import com.ankit.deeppacketinspection.report.TextReportGenerator;
 import com.ankit.deeppacketinspection.report.JsonReportGenerator;
 import java.io.IOException;
+import com.ankit.deeppacketinspection.model.AnalysisResult;
 
 import java.nio.file.Path;
 
@@ -81,85 +83,99 @@ public class DpiEngine {
      *
      * @param pcapFile Path to the PCAP file.
      */
-    public void start(Path pcapFile) {
+   public AnalysisResult start(Path pcapFile) {
 
-        System.out.println();
-        System.out.println("=======================================");
-        System.out.println(" AI Powered Deep Packet Inspection ");
-        System.out.println("=======================================");
-        System.out.println();
+    AnalysisResult result = new AnalysisResult();
 
-        captureService.openPcapFile(pcapFile);
+    System.out.println();
+    System.out.println("=======================================");
+    System.out.println(" AI Powered Deep Packet Inspection ");
+    System.out.println("=======================================");
+    System.out.println();
 
-        while (captureService.hasNextPacket()) {
+    captureService.openPcapFile(pcapFile);
 
-            PacketData packet =
-                    captureService.readNextPacket();
+    while (captureService.hasNextPacket()) {
 
-            if (packet == null) {
-                continue;
-            }
+        PacketData packet = captureService.readNextPacket();
 
-            ParsedPacket parsedPacket =
-                    parserService.parse(packet);
+        // if (packet == null) {
+        //     continue;
+        // }
 
-            // Skip packets that don't have an IP layer
-            if (parsedPacket.getIpVersion() == 0) {
-                continue;
-                }
+        ParsedPacket parsedPacket = parserService.parse(packet);
 
-            Flow flow = flowManager.processPacket(parsedPacket);
-
-            /* ---------------- Statistics ---------------- */
-
-                statisticsEngine.update(parsedPacket, flow);
-
-                /* ---------------- Threat Detection ---------------- */
-
-                threatDetector.analyze(parsedPacket);
-
-                /* ---------------- Console Output ---------------- */
-
-                printPacket(parsedPacket, flow);
+        // Skip packets that don't have an IP layer
+        if (parsedPacket.getIpVersion() == 0) {
+            continue;
         }
 
-        captureService.closePcapFile();
+        Flow flow = flowManager.processPacket(parsedPacket);
 
-        captureService.closePcapFile();
+        /* ---------------- Statistics ---------------- */
 
-/* ---------------- Statistics ---------------- */
+        statisticsEngine.update(parsedPacket, flow);
 
-        statisticsPrinter.print(
-                statisticsEngine.getStatistics()
-        );
+        /* ---------------- Threat Detection ---------------- */
 
-        /* ---------------- Threat Report ---------------- */
+        threatDetector.analyze(parsedPacket);
 
-        threatPrinter.print(threatDetector);
+        /* ---------------- Console Output ---------------- */
 
-        try {
-
-                textReportGenerator.generate(
-                        statisticsEngine.getStatistics(),
-                        threatDetector);
-
-                jsonReportGenerator.generate(
-                        statisticsEngine.getStatistics(),
-                        threatDetector);
-
-                System.out.println();
-                System.out.println("Reports generated successfully.");
-
-                } catch (IOException e) {
-
-                System.err.println("Failed to generate reports.");
-
-                e.printStackTrace();
-
-                }
+        printPacket(parsedPacket, flow);
 
     }
 
+    // Close capture only once
+    captureService.closePcapFile();
+
+    /* ---------------- Statistics ---------------- */
+
+    statisticsPrinter.print(
+            statisticsEngine.getStatistics()
+    );
+
+    /* ---------------- Threat Report ---------------- */
+
+    threatPrinter.print(threatDetector);
+
+    /* ---------------- Reports ---------------- */
+
+    try {
+
+        textReportGenerator.generate(
+                statisticsEngine.getStatistics(),
+                threatDetector);
+
+        jsonReportGenerator.generate(
+                statisticsEngine.getStatistics(),
+                threatDetector);
+
+        System.out.println();
+        System.out.println("Reports generated successfully.");
+
+    } catch (IOException e) {
+
+        System.err.println("Failed to generate reports.");
+
+        e.printStackTrace();
+
+    }
+
+    /* ---------------- Analysis Result ---------------- */
+
+    result.setStatistics(
+            statisticsEngine.getStatistics());
+
+    result.setThreatDetector(
+            threatDetector);
+
+    result.setFlowTable(
+            flowManager.getFlowTable());
+
+    return result;
+
+}
     /**
      * Prints parsed packet information.
      *
