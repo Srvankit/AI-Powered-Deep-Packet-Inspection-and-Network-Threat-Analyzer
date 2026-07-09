@@ -29,7 +29,11 @@ function UploadCard() {
 
             const result = await analyzePcap(file);
 
+            console.log("API Result:", result);
+
             setAnalysis(result);
+
+            console.log("Analysis Stored");
 
             alert("Analysis Completed!");
 
