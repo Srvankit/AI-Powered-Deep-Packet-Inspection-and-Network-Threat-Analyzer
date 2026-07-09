@@ -10,8 +10,6 @@ public class ParsedPacket {
 
     private String destinationIp;
 
-    private ProtocolType protocol;
-
     private int packetLength;
 
     private long timestamp;
@@ -224,15 +222,7 @@ public class ParsedPacket {
     public void setDestinationIp(String destinationIp) {
         this.destinationIp = destinationIp;
     }
-
-    public ProtocolType getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(ProtocolType protocol) {
-        this.protocol = protocol;
-    }
-
+    
     public int getPacketLength() {
         return packetLength;
     }

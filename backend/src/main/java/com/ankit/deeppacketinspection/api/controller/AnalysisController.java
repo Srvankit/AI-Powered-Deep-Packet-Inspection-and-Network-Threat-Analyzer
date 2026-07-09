@@ -21,6 +21,7 @@ import java.nio.file.Path;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5174")
 public class AnalysisController {
 
     private final AnalysisService analysisService;

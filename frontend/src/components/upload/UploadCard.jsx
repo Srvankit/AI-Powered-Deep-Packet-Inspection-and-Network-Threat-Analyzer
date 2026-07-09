@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import UploadButton from "./UploadButton";
 import UploadProgress from "./UploadProgress";
-
+import { useAnalysis } from "../../hooks/useAnalysis";
 import { analyzePcap } from "../../api/analysisApi";
 
 function UploadCard() {
@@ -10,6 +10,8 @@ function UploadCard() {
     const [file, setFile] = useState(null);
 
     const [loading, setLoading] = useState(false);
+
+    const { setAnalysis } = useAnalysis();
 
     const handleAnalyze = async () => {
 
@@ -27,7 +29,7 @@ function UploadCard() {
 
             const result = await analyzePcap(file);
 
-            console.log(result);
+            setAnalysis(result);
 
             alert("Analysis Completed!");
 
