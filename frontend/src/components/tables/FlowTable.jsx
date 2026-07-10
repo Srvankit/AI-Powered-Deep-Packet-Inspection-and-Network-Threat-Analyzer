@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getFlows } from "../../api/flowApi";
+import FlowToolbar from "./FlowToolbar";
+import FlowRow from "./FlowRow";
+import Pagination from "./Pagination";
 
 function FlowTable() {
 
     const [flows, setFlows] = useState([]);
+
+    const [search, setSearch] = useState("");
+
+    const [page, setPage] = useState(1);
+
+    const rowsPerPage = 10;
 
     useEffect(() => {
 
@@ -29,27 +38,73 @@ function FlowTable() {
 
     }, []);
 
+    const filteredFlows = useMemo(() => {
+
+        return flows.filter(flow => {
+
+            const source = flow.fiveTuple.sourceIp.toLowerCase();
+
+            const destination = flow.fiveTuple.destinationIp.toLowerCase();
+
+            const protocol = flow.fiveTuple.protocol.toLowerCase();
+
+            return (
+
+                source.includes(search.toLowerCase())
+
+                ||
+
+                destination.includes(search.toLowerCase())
+
+                ||
+
+                protocol.includes(search.toLowerCase())
+
+            );
+
+        });
+
+    }, [flows, search]);
+
+    const start = (page - 1) * rowsPerPage;
+
+    const currentRows = filteredFlows.slice(start, start + rowsPerPage);
+
     return (
 
-        <div className="bg-slate-900 rounded-xl p-6">
+        <div className="bg-slate-900 rounded-xl p-6 shadow-xl">
 
-            <h2 className="text-2xl font-bold text-white mb-6">
+            <h2 className="text-3xl font-bold text-white mb-6">
 
                 Network Flows
 
             </h2>
 
-            <table className="w-full">
+            <FlowToolbar
+
+                search={search}
+
+                setSearch={setSearch}
+
+            />
+
+            <table className="w-full mt-6">
 
                 <thead>
 
-                    <tr className="text-cyan-400 border-b border-slate-700">
+                    <tr className="border-b border-slate-700 text-cyan-400">
 
                         <th className="text-left py-3">Source</th>
+
                         <th className="text-left py-3">Destination</th>
+
                         <th className="text-left py-3">Protocol</th>
+
                         <th className="text-left py-3">Packets</th>
+
                         <th className="text-left py-3">Bytes</th>
+
+                        <th className="text-left py-3">Duration</th>
 
                     </tr>
 
@@ -57,40 +112,31 @@ function FlowTable() {
 
                 <tbody>
 
-                    {flows.map((flow, index) => (
+                    {currentRows.map((flow, index) => (
 
-                        <tr
+                        <FlowRow
+
                             key={index}
-                            className="border-b border-slate-800 hover:bg-slate-800"
-                        >
 
-                            <td className="py-3">
-                                {flow.fiveTuple.sourceIp}
-                            </td>
+                            flow={flow}
 
-                            <td className="py-3">
-                                {flow.fiveTuple.destinationIp}
-                            </td>
-
-                            <td className="py-3">
-                                {flow.fiveTuple.protocol}
-                            </td>
-
-                            <td className="py-3">
-                                {flow.packetCount}
-                            </td>
-
-                            <td className="py-3">
-                                {flow.byteCount}
-                            </td>
-
-                        </tr>
+                        />
 
                     ))}
 
                 </tbody>
 
             </table>
+
+            <Pagination
+
+                current={page}
+
+                total={Math.ceil(filteredFlows.length / rowsPerPage)}
+
+                onChange={setPage}
+
+            />
 
         </div>
 

@@ -1,90 +1,92 @@
 import { NavLink } from "react-router-dom";
 
-import {
-  FaChartLine,
-  FaUpload,
-  FaFileAlt,
-  FaHistory,
-  FaCog
-} from "react-icons/fa";
+const menuItems = [
+
+    {
+        name: "Dashboard",
+        path: "/dashboard"
+    },
+
+    {
+        name: "Upload",
+        path: "/upload"
+    },
+
+    {
+        name: "Flows",
+        path: "/flows"
+    },
+
+    {
+        name: "Reports",
+        path: "/reports"
+    },
+
+    {
+        name: "History",
+        path: "/history"
+    },
+
+    {
+        name: "Settings",
+        path: "/settings"
+    }
+
+];
 
 function Sidebar() {
 
-  const menu = [
+    return (
 
-    {
-      name: "Dashboard",
-      path: "/",
-      icon: <FaChartLine />
-    },
+        <aside className="w-64 bg-slate-900 border-r border-slate-800">
 
-    {
-      name: "Upload PCAP",
-      path: "/upload",
-      icon: <FaUpload />
-    },
+            <div className="p-6">
 
-    {
-      name: "Reports",
-      path: "/reports",
-      icon: <FaFileAlt />
-    },
+                <h2 className="text-xl font-bold text-cyan-400">
 
-    {
-      name: "History",
-      path: "/history",
-      icon: <FaHistory />
-    },
+                    AI DPI
 
-    {
-      name: "Settings",
-      path: "/settings",
-      icon: <FaCog />
-    }
+                </h2>
 
-  ];
+            </div>
 
-  return (
+            <nav className="flex flex-col px-4 gap-2">
 
-    <aside className="w-64 bg-slate-900 border-r border-slate-700">
+                {
 
-      <nav className="p-6">
+                    menuItems.map((item) => (
 
-        {menu.map((item) => (
+                        <NavLink
 
-          <NavLink
+                            key={item.path}
 
-            key={item.path}
+                            to={item.path}
 
-            to={item.path}
+                            className={({ isActive }) =>
 
-            className={({ isActive }) =>
+                                `rounded-lg px-4 py-3 transition-all ${
+                                    isActive
+                                        ? "bg-cyan-600 text-white"
+                                        : "text-slate-300 hover:bg-slate-800"
+                                }`
 
-              `flex items-center gap-3 px-4 py-3 rounded-lg mb-3 transition-all duration-200
+                            }
 
-              ${
-                isActive
-                  ? "bg-cyan-600 text-white"
-                  : "text-slate-300 hover:bg-slate-800"
-              }`
+                        >
 
-            }
+                            {item.name}
 
-          >
+                        </NavLink>
 
-            {item.icon}
+                    ))
 
-            {item.name}
+                }
 
-          </NavLink>
+            </nav>
 
-        ))}
+        </aside>
 
-      </nav>
-
-    </aside>
-
-  );
+    );
 
 }
 

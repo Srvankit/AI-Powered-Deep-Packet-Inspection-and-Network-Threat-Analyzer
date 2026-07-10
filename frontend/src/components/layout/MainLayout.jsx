@@ -6,47 +6,52 @@ import { Routes, Route } from "react-router-dom";
 
 import Dashboard from "../../pages/Dashboard";
 import Upload from "../../pages/Upload";
+import Flows from "../../pages/Flows";
 import Reports from "../../pages/Reports";
 import History from "../../pages/History";
 import Settings from "../../pages/Settings";
 
 function MainLayout() {
 
-  return (
+    return (
 
-    <div className="min-h-screen flex flex-col bg-slate-950">
+        <div className="min-h-screen flex flex-col bg-slate-950">
 
-      <Navbar />
+            <Navbar />
 
-      <div className="flex flex-1">
+            <div className="flex flex-1">
 
-        <Sidebar />
+                <Sidebar />
 
-        <main className="flex-1 p-8 overflow-auto">
+                <main className="flex-1 p-8 overflow-auto">
 
-          <Routes>
+                    <Routes>
 
-            <Route path="/" element={<Dashboard />} />
+                        <Route path="/" element={<Dashboard />} />
 
-            <Route path="/upload" element={<Upload />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
 
-            <Route path="/reports" element={<Reports />} />
+                        <Route path="/upload" element={<Upload />} />
 
-            <Route path="/history" element={<History />} />
+                        <Route path="/flows" element={<Flows />} />
 
-            <Route path="/settings" element={<Settings />} />
+                        <Route path="/reports" element={<Reports />} />
 
-          </Routes>
+                        <Route path="/history" element={<History />} />
 
-        </main>
+                        <Route path="/settings" element={<Settings />} />
 
-      </div>
+                    </Routes>
 
-      <Footer />
+                </main>
 
-    </div>
+            </div>
 
-  );
+            <Footer />
+
+        </div>
+
+    );
 
 }
 
