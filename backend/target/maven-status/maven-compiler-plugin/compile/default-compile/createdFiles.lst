@@ -43,13 +43,13 @@ com\ankit\deeppacketinspection\analysis\ThreatType.class
 com\ankit\deeppacketinspection\parser\HttpParser.class
 com\ankit\deeppacketinspection\analysis\StatisticsEngine.class
 com\ankit\deeppacketinspection\parser\IPv4Parser.class
+com\ankit\deeppacketinspection\api\controller\ReportController.class
 JsonnUtils.class
 com\ankit\deeppacketinspection\parser\IPv6Parser.class
 com\ankit\deeppacketinspection\model\AnalysisResult.class
 com\ankit\deeppacketinspection\api\controller\AnalysisController.class
 StatisticsService.class
 com\ankit\deeppacketinspection\flow\FlowTable.class
-ReportController.class
 com\ankit\deeppacketinspection\flow\FlowManager.class
 com\ankit\deeppacketinspection\parser\ApplicationParser.class
 StatisticsDTO.class

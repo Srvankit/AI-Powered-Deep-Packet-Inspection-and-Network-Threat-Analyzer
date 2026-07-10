@@ -7,18 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.ankit.deeppacketinspection.model.AnalysisResult;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-/**
- * REST Controller for packet analysis.
- *
- * Author: Ankit Yadav
- * Version: 1.0
- */
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:5174")
@@ -28,17 +21,12 @@ public class AnalysisController {
 
     @Autowired
     public AnalysisController(AnalysisService analysisService) {
-
         this.analysisService = analysisService;
-
     }
 
-    /**
-     * Uploads and analyzes a PCAP file.
-     */
     @PostMapping("/analyze")
     public ResponseEntity<AnalysisResult> analyze(
-        @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file) {
 
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -46,28 +34,20 @@ public class AnalysisController {
 
         try {
 
-            Path tempFile = Files.createTempFile(
-                    "dpi-",
-                    ".pcap"
-            );
+            Path tempFile = Files.createTempFile("dpi-", ".pcap");
 
             file.transferTo(tempFile);
 
-            AnalysisResult result =
-                    analysisService.analyze(tempFile);
+            AnalysisResult result = analysisService.analyze(tempFile);
 
             Files.deleteIfExists(tempFile);
 
             return ResponseEntity.ok(result);
 
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
 
             return ResponseEntity.internalServerError().build();
 
         }
-
     }
-
 }
