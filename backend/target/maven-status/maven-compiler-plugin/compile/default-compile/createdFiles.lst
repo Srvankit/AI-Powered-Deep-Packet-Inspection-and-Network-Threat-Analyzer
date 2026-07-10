@@ -1,3 +1,4 @@
+com\ankit\deeppacketinspection\api\controller\FlowController.class
 com\ankit\deeppacketinspection\parser\PayloadExtractor.class
 FileUtils.class
 com\ankit\deeppacketinspection\model\PacketData.class
@@ -5,7 +6,9 @@ CaptureUtils.class
 com\ankit\deeppacketinspection\analysis\Threat.class
 com\ankit\deeppacketinspection\analysis\StatisticsPrinter.class
 com\ankit\deeppacketinspection\parser\TcpParser.class
+com\ankit\deeppacketinspection\config\CorsConfig$1.class
 com\ankit\deeppacketinspection\model\PacketPayload.class
+com\ankit\deeppacketinspection\api\service\AnalysisStateService.class
 AnalysisRequest.class
 AnalysisResponse.class
 com\ankit\deeppacketinspection\Main.class
@@ -45,6 +48,7 @@ com\ankit\deeppacketinspection\analysis\StatisticsEngine.class
 com\ankit\deeppacketinspection\parser\IPv4Parser.class
 com\ankit\deeppacketinspection\api\controller\ReportController.class
 JsonnUtils.class
+com\ankit\deeppacketinspection\config\CorsConfig.class
 com\ankit\deeppacketinspection\parser\IPv6Parser.class
 com\ankit\deeppacketinspection\model\AnalysisResult.class
 com\ankit\deeppacketinspection\api\controller\AnalysisController.class
