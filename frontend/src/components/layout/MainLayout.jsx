@@ -10,7 +10,7 @@ import Flows from "../../pages/Flows";
 import Reports from "../../pages/Reports";
 import History from "../../pages/History";
 import Settings from "../../pages/Settings";
-import LiveCapture from "../../pages/LiveCapture";
+import AIInsights from "../../pages/AIInsights";
 
 function MainLayout() {
 
@@ -42,7 +42,7 @@ function MainLayout() {
 
                         <Route path="/settings" element={<Settings />} />
 
-                        <Route path="/live" element={<LiveCapture />} />
+                        <Route path="/insights" element={<AIInsights />} />
 
                     </Routes>
 

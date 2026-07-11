@@ -17,8 +17,8 @@ const menuItems = [
         path: "/flows"
     },
     {
-        name: "Live Capture",
-        path: "/live"
+    name: "AI Insights",
+    path: "/insights"
     },
     {
         name: "Reports",

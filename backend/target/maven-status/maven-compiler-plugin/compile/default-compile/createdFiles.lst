@@ -15,12 +15,12 @@ com\ankit\deeppacketinspection\Main.class
 FlowDTO.class
 com\ankit\deeppacketinspection\parser\HttpsParser.class
 com\ankit\deeppacketinspection\model\FiveTuple.class
+com\ankit\deeppacketinspection\api\controller\AIInsightController.class
 com\ankit\deeppacketinspection\parser\UdpParser.class
 com\ankit\deeppacketinspection\report\TextReportGenerator.class
 ReportDTO.class
 com\ankit\deeppacketinspection\DeepPacketInspectionApplication.class
 ThreatDTO.class
-com\ankit\deeppacketinspection\api\controller\LiveCaptureController.class
 com\ankit\deeppacketinspection\parser\ParserUtils.class
 com\ankit\deeppacketinspection\parser\DnsParser.class
 com\ankit\deeppacketinspection\report\JsonReportGenerator.class
@@ -34,6 +34,7 @@ com\ankit\deeppacketinspection\parser\TransportParser.class
 com\ankit\deeppacketinspection\utils\PacketUtils.class
 ApiResponse.class
 com\ankit\deeppacketinspection\parser\TlsParser.class
+com\ankit\deeppacketinspection\api\dto\AIInsight.class
 com\ankit\deeppacketinspection\model\ParsedPacket.class
 com\ankit\deeppacketinspection\parser\PacketParserService.class
 com\ankit\deeppacketinspection\report\ReportGenerator.class
@@ -54,9 +55,9 @@ com\ankit\deeppacketinspection\parser\IPv6Parser.class
 com\ankit\deeppacketinspection\model\AnalysisResult.class
 com\ankit\deeppacketinspection\api\controller\AnalysisController.class
 StatisticsService.class
+com\ankit\deeppacketinspection\api\service\AIInsightService.class
 com\ankit\deeppacketinspection\flow\FlowTable.class
 com\ankit\deeppacketinspection\api\dto\CaptureStatus.class
-com\ankit\deeppacketinspection\api\service\LiveCaptureService.class
 com\ankit\deeppacketinspection\flow\FlowManager.class
 com\ankit\deeppacketinspection\parser\ApplicationParser.class
 StatisticsDTO.class
