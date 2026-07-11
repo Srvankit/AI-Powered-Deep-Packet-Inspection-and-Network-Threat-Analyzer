@@ -20,6 +20,7 @@ com\ankit\deeppacketinspection\report\TextReportGenerator.class
 ReportDTO.class
 com\ankit\deeppacketinspection\DeepPacketInspectionApplication.class
 ThreatDTO.class
+com\ankit\deeppacketinspection\api\controller\LiveCaptureController.class
 com\ankit\deeppacketinspection\parser\ParserUtils.class
 com\ankit\deeppacketinspection\parser\DnsParser.class
 com\ankit\deeppacketinspection\report\JsonReportGenerator.class
@@ -54,6 +55,8 @@ com\ankit\deeppacketinspection\model\AnalysisResult.class
 com\ankit\deeppacketinspection\api\controller\AnalysisController.class
 StatisticsService.class
 com\ankit\deeppacketinspection\flow\FlowTable.class
+com\ankit\deeppacketinspection\api\dto\CaptureStatus.class
+com\ankit\deeppacketinspection\api\service\LiveCaptureService.class
 com\ankit\deeppacketinspection\flow\FlowManager.class
 com\ankit\deeppacketinspection\parser\ApplicationParser.class
 StatisticsDTO.class

@@ -10,6 +10,7 @@ import Flows from "../../pages/Flows";
 import Reports from "../../pages/Reports";
 import History from "../../pages/History";
 import Settings from "../../pages/Settings";
+import LiveCapture from "../../pages/LiveCapture";
 
 function MainLayout() {
 
@@ -40,6 +41,8 @@ function MainLayout() {
                         <Route path="/history" element={<History />} />
 
                         <Route path="/settings" element={<Settings />} />
+
+                        <Route path="/live" element={<LiveCapture />} />
 
                     </Routes>
 

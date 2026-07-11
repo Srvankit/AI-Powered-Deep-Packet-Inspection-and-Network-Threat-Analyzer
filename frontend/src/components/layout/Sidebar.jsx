@@ -16,7 +16,10 @@ const menuItems = [
         name: "Flows",
         path: "/flows"
     },
-
+    {
+        name: "Live Capture",
+        path: "/live"
+    },
     {
         name: "Reports",
         path: "/reports"
