@@ -27,6 +27,15 @@ C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\mai
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\api\service\AnalysisStateService.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\api\service\ReportService.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\api\service\StatisticsService.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\AuthenticationResponse.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\config\PasswordConfig.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\config\SecurityConfig.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\LoginRequest.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\RegisterRequest.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\service\AuthService.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\service\CustomUserDetailsService.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\User.java
+C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\auth\UserRepository.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\capture\CaptureUtils.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\capture\PacketCaptureService.java
 C:\Users\AnkitAccess\Downloads\AI-Powered Deep Packet Inspection\backend\src\main\java\com\ankit\deeppacketinspection\config\CorsConfig.java
