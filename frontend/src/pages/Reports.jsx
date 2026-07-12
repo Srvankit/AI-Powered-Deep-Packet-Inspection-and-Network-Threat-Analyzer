@@ -3,6 +3,15 @@ import ReportSummary from "../components/reports/ReportSummary";
 
 function Reports() {
 
+    const downloadReport = (type) => {
+
+        window.open(
+            `http://localhost:8080/api/report/${type}`,
+            "_blank"
+        );
+
+    };
+
     return (
 
         <div className="p-8">
@@ -19,6 +28,8 @@ function Reports() {
 
                     color="bg-cyan-600"
 
+                    onClick={() => downloadReport("json")}
+
                 />
 
                 <DownloadCard
@@ -29,17 +40,21 @@ function Reports() {
 
                     color="bg-blue-700"
 
+                    onClick={() => downloadReport("text")}
+
                 />
 
                 <DownloadCard
 
-                    title="PDF Report"
+                        title="PDF Report"
 
-                    description="Download printable report."
+                        description="Download printable PDF report."
 
-                    color="bg-red-700"
+                        color="bg-red-700"
 
-                />
+                        onClick={() => downloadReport("pdf")}
+
+                    />
 
             </div>
 

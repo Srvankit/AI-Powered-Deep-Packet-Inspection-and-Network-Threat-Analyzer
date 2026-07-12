@@ -1,168 +1,168 @@
-package com.ankit.deeppacketinspection.analysis;
+    package com.ankit.deeppacketinspection.analysis;
 
-import com.ankit.deeppacketinspection.model.ParsedPacket;
-
-/**
- * ThreatDetector
- *
- * Performs rule-based threat detection
- * on parsed packets.
- *
- * Current Detection Rules:
- * - SYN Flood
- * - Large Packet
- * - Suspicious Port
- * - DNS Flood
- * - Port Scan (Reserved for future implementation)
- *
- * Author: Ankit Yadav
- * Version: 2.0
- */
-public class ThreatDetector {
-
-    /* ---------------- Alert Counters ---------------- */
-
-    private int synFloodAlerts;
-
-    private int portScanAlerts;
-
-    private int dnsFloodAlerts;
-
-    private int largePacketAlerts;
-
-    private int suspiciousPortAlerts;
+    import com.ankit.deeppacketinspection.model.ParsedPacket;
 
     /**
-     * Default Constructor.
-     */
-    public ThreatDetector() {
-    }
-
-    /**
-     * Analyses a parsed packet.
+     * ThreatDetector
      *
-     * @param packet Parsed packet.
+     * Performs rule-based threat detection
+     * on parsed packets.
+     *
+     * Current Detection Rules:
+     * - SYN Flood
+     * - Large Packet
+     * - Suspicious Port
+     * - DNS Flood
+     * - Port Scan (Reserved for future implementation)
+     *
+     * Author: Ankit Yadav
+     * Version: 2.0
      */
-    public void analyze(ParsedPacket packet) {
+    public class ThreatDetector {
 
-        if (packet == null) {
-            return;
+        /* ---------------- Alert Counters ---------------- */
+
+        private int synFloodAlerts;
+
+        private int portScanAlerts;
+
+        private int dnsFloodAlerts;
+
+        private int largePacketAlerts;
+
+        private int suspiciousPortAlerts;
+
+        /**
+         * Default Constructor.
+         */
+        public ThreatDetector() {
         }
 
-        detectLargePacket(packet);
+        /**
+         * Analyses a parsed packet.
+         *
+         * @param packet Parsed packet.
+         */
+        public void analyze(ParsedPacket packet) {
 
-        detectSuspiciousPort(packet);
+            if (packet == null) {
+                return;
+            }
 
-        detectSynFlood(packet);
+            detectLargePacket(packet);
 
-        detectDnsFlood(packet);
+            detectSuspiciousPort(packet);
 
-    }
+            detectSynFlood(packet);
 
-    /* =====================================================
-                     Detection Rules
-       ===================================================== */
-
-    /**
-     * Detect unusually large packets.
-     */
-    private void detectLargePacket(ParsedPacket packet) {
-
-        if (packet.getPacketLength() > 1400) {
-
-            largePacketAlerts++;
+            detectDnsFlood(packet);
 
         }
 
-    }
+        /* =====================================================
+                        Detection Rules
+        ===================================================== */
 
-    /**
-     * Detect suspicious destination ports.
-     */
-    private void detectSuspiciousPort(ParsedPacket packet) {
+        /**
+         * Detect unusually large packets.
+         */
+        private void detectLargePacket(ParsedPacket packet) {
 
-        int port = packet.getDestinationPort();
+            if (packet.getPacketLength() > 1400) {
 
-        switch (port) {
+                largePacketAlerts++;
 
-            case 23,
-                    135,
-                    139,
-                    445,
-                    1433,
-                    3389,
-                    4444,
-                    5555,
-                    31337 -> suspiciousPortAlerts++;
-
-            default -> {
             }
 
         }
 
-    }
+        /**
+         * Detect suspicious destination ports.
+         */
+        private void detectSuspiciousPort(ParsedPacket packet) {
 
-    /**
-     * Basic SYN Flood Detection.
-     */
-    private void detectSynFlood(ParsedPacket packet) {
+            int port = packet.getDestinationPort();
 
-        if (packet.isSyn() && !packet.isAck()) {
+            switch (port) {
 
-            synFloodAlerts++;
+                case 23,
+                        135,
+                        139,
+                        445,
+                        1433,
+                        3389,
+                        4444,
+                        5555,
+                        31337 -> suspiciousPortAlerts++;
+
+                default -> {
+                }
+
+            }
+
+        }
+
+        /**
+         * Basic SYN Flood Detection.
+         */
+        private void detectSynFlood(ParsedPacket packet) {
+
+            if (packet.isSyn() && !packet.isAck()) {
+
+                synFloodAlerts++;
+
+            }
+
+        }
+
+        /**
+         * Basic DNS Detection.
+         */
+        private void detectDnsFlood(ParsedPacket packet) {
+
+            if ("DNS".equalsIgnoreCase(packet.getApplicationProtocol())) {
+
+                dnsFloodAlerts++;
+
+            }
+
+        }
+
+        /* =====================================================
+                            Getters
+        ===================================================== */
+
+        public int getSynFloodAlerts() {
+            return synFloodAlerts;
+        }
+
+        public int getPortScanAlerts() {
+            return portScanAlerts;
+        }
+
+        public int getDnsFloodAlerts() {
+            return dnsFloodAlerts;
+        }
+
+        public int getLargePacketAlerts() {
+            return largePacketAlerts;
+        }
+
+        public int getSuspiciousPortAlerts() {
+            return suspiciousPortAlerts;
+        }
+
+        /**
+         * Returns the total number of alerts.
+         */
+        public int getTotalAlerts() {
+
+            return synFloodAlerts
+                    + portScanAlerts
+                    + dnsFloodAlerts
+                    + largePacketAlerts
+                    + suspiciousPortAlerts;
 
         }
 
     }
-
-    /**
-     * Basic DNS Detection.
-     */
-    private void detectDnsFlood(ParsedPacket packet) {
-
-        if ("DNS".equalsIgnoreCase(packet.getApplicationProtocol())) {
-
-            dnsFloodAlerts++;
-
-        }
-
-    }
-
-    /* =====================================================
-                        Getters
-       ===================================================== */
-
-    public int getSynFloodAlerts() {
-        return synFloodAlerts;
-    }
-
-    public int getPortScanAlerts() {
-        return portScanAlerts;
-    }
-
-    public int getDnsFloodAlerts() {
-        return dnsFloodAlerts;
-    }
-
-    public int getLargePacketAlerts() {
-        return largePacketAlerts;
-    }
-
-    public int getSuspiciousPortAlerts() {
-        return suspiciousPortAlerts;
-    }
-
-    /**
-     * Returns the total number of alerts.
-     */
-    public int getTotalAlerts() {
-
-        return synFloodAlerts
-                + portScanAlerts
-                + dnsFloodAlerts
-                + largePacketAlerts
-                + suspiciousPortAlerts;
-
-    }
-
-}

@@ -11,50 +11,121 @@ import Reports from "../../pages/Reports";
 import History from "../../pages/History";
 import Settings from "../../pages/Settings";
 import AIInsights from "../../pages/AIInsights";
+import Login from "../../pages/Login";
+import Register from "../../pages/Register";
+import { useLocation } from "react-router-dom";
+
+import ProtectedRoute from "../auth/ProtectedRoute";
 
 function MainLayout() {
 
+    const location = useLocation();
+
+    const authPage =
+        location.pathname === "/login" ||
+        location.pathname === "/register";
+
     return (
 
-        <div className="min-h-screen flex flex-col bg-slate-950">
+            <div className="min-h-screen flex flex-col bg-slate-950">
 
-            <Navbar />
+                {!authPage && <Navbar />}
 
-            <div className="flex flex-1">
+                <div className="flex flex-1">
 
-                <Sidebar />
+                    {!authPage && <Sidebar />}
 
-                <main className="flex-1 p-8 overflow-auto">
+                    <main className="flex-1 p-8 overflow-auto">
 
-                    <Routes>
+                        <Routes>
 
-                        <Route path="/" element={<Dashboard />} />
+                            <Route path="/login" element={<Login />} />
 
-                        <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/register" element={<Register />} />
 
-                        <Route path="/upload" element={<Upload />} />
+                            <Route
+                                path="/"
+                                element={
+                                    <ProtectedRoute>
+                                        <Dashboard />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                        <Route path="/flows" element={<Flows />} />
+                            <Route
+                                path="/dashboard"
+                                element={
+                                    <ProtectedRoute>
+                                        <Dashboard />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                        <Route path="/reports" element={<Reports />} />
+                            <Route
+                                path="/upload"
+                                element={
+                                    <ProtectedRoute>
+                                        <Upload />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                        <Route path="/history" element={<History />} />
+                            <Route
+                                path="/flows"
+                                element={
+                                    <ProtectedRoute>
+                                        <Flows />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                        <Route path="/settings" element={<Settings />} />
+                            <Route
+                                path="/reports"
+                                element={
+                                    <ProtectedRoute>
+                                        <Reports />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                        <Route path="/insights" element={<AIInsights />} />
+                            <Route
+                                path="/history"
+                                element={
+                                    <ProtectedRoute>
+                                        <History />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                    </Routes>
+                            <Route
+                                path="/settings"
+                                element={
+                                    <ProtectedRoute>
+                                        <Settings />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                </main>
+                            <Route
+                                path="/insights"
+                                element={
+                                    <ProtectedRoute>
+                                        <AIInsights />
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                        </Routes>
+
+                    </main>
+
+                </div>
+
+                {!authPage && <Footer />}
 
             </div>
 
-            <Footer />
-
-        </div>
-
-    );
+        );
 
 }
 

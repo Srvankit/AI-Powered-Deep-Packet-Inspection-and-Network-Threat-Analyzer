@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.ankit.deeppacketinspection.api.service.AnalysisStateService;
+import com.ankit.deeppacketinspection.history.service.AnalysisHistoryService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,10 +26,13 @@ public class AnalysisController {
 
     private final AnalysisStateService stateService;
 
+    private final AnalysisHistoryService historyService;
+
     @Autowired
-    public AnalysisController(AnalysisService analysisService, AnalysisStateService stateService) {
+    public AnalysisController(AnalysisService analysisService, AnalysisStateService stateService, AnalysisHistoryService historyService) {
         this.analysisService = analysisService;
         this.stateService = stateService;
+        this.historyService = historyService;
     }
 
     @PostMapping("/analyze")
@@ -53,6 +57,11 @@ public class AnalysisController {
             );
 
             stateService.setLatestAnalysis(result);
+
+            historyService.saveAnalysis(
+                    file.getOriginalFilename(),
+                    result
+            );
 
             Files.deleteIfExists(tempFile);
 

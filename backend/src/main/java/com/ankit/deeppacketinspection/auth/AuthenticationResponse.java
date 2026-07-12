@@ -3,10 +3,16 @@ package com.ankit.deeppacketinspection.auth;
 public class AuthenticationResponse {
 
     private boolean success;
+
     private String message;
+
     private String fullName;
+
     private String email;
+
     private String role;
+
+    private String token;
 
     public AuthenticationResponse() {
     }
@@ -16,13 +22,15 @@ public class AuthenticationResponse {
             String message,
             String fullName,
             String email,
-            String role) {
+            String role,
+            String token) {
 
         this.success = success;
         this.message = message;
         this.fullName = fullName;
         this.email = email;
         this.role = role;
+        this.token = token;
     }
 
     public boolean isSuccess() {
@@ -64,4 +72,13 @@ public class AuthenticationResponse {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 }

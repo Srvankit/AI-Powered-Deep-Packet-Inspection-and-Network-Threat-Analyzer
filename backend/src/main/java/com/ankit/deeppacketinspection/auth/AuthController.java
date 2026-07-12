@@ -1,12 +1,18 @@
-package com.ankit.deeppacketinspection.auth;
+    package com.ankit.deeppacketinspection.auth;
 
-import com.ankit.deeppacketinspection.auth.service.AuthService;
-import org.springframework.web.bind.annotation.*;
+    import com.ankit.deeppacketinspection.auth.service.AuthService;
+    import org.springframework.web.bind.annotation.*;
+    import org.springframework.security.core.Authentication;
+    import jakarta.servlet.http.HttpServletRequest;
+    import jakarta.servlet.http.HttpServletResponse;    
 
-@RestController
-@RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173")
-public class AuthController {
+    import org.springframework.security.core.context.SecurityContextHolder;
+    import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
+    @RestController
+    @RequestMapping("/api/auth")
+    @CrossOrigin(origins = "http://localhost:5173")
+    public class AuthController {
 
     private final AuthService service;
 
@@ -28,6 +34,53 @@ public class AuthController {
 
         return service.login(request);
 
+    }
+
+    @GetMapping("/me")
+    public AuthenticationResponse currentUser(
+            Authentication authentication) {
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return new AuthenticationResponse(
+                    false,
+                    "Not authenticated",
+                    null,
+                    null,
+                    null,
+                    null
+            );
+        }
+        return new AuthenticationResponse(
+                true,
+                "Authenticated",
+                authentication.getName(),
+                authentication.getName(),
+                "USER",
+                null
+        );
+    }
+
+    @PostMapping("/logout")
+    public AuthenticationResponse logout(
+            HttpServletRequest request,
+            HttpServletResponse response) {
+
+        Authentication auth =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null) {
+            new SecurityContextLogoutHandler()
+                    .logout(request, response, auth);
+        }
+
+        return new AuthenticationResponse(
+                true,
+                "Logged out successfully",
+                null,
+                null,
+                null,
+                null
+        );
     }
 
 }

@@ -1,15 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+
+import App from "./App";
+import "./index.css";
+
+import AuthProvider from "./context/AuthContext";
 import { AnalysisProvider } from "./context/AnalysisContext";
 
-import "./index.css";
-import App from "./App";
-
 ReactDOM.createRoot(document.getElementById("root")).render(
- <AnalysisProvider>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </AnalysisProvider>
+    <React.StrictMode>
+        <AuthProvider>
+            <AnalysisProvider>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            </AnalysisProvider>
+        </AuthProvider>
+    </React.StrictMode>
 );

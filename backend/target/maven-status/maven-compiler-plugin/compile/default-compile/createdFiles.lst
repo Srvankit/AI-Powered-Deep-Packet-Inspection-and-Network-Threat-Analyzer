@@ -2,6 +2,7 @@ com\ankit\deeppacketinspection\api\controller\FlowController.class
 com\ankit\deeppacketinspection\parser\PayloadExtractor.class
 com\ankit\deeppacketinspection\auth\LoginRequest.class
 com\ankit\deeppacketinspection\auth\User.class
+com\ankit\deeppacketinspection\history\controller\AnalysisHistoryController.class
 FileUtils.class
 com\ankit\deeppacketinspection\model\PacketData.class
 CaptureUtils.class
@@ -33,7 +34,10 @@ com\ankit\deeppacketinspection\report\JsonReportGenerator.class
 com\ankit\deeppacketinspection\api\service\AnalysisService.class
 com\ankit\deeppacketinspection\analysis\ThreatPrinter.class
 ReportService.class
+com\ankit\deeppacketinspection\auth\AuthController.class
+com\ankit\deeppacketinspection\auth\security\JwtService.class
 com\ankit\deeppacketinspection\capture\PacketCaptureService.class
+com\ankit\deeppacketinspection\history\service\AnalysisHistoryService.class
 com\ankit\deeppacketinspection\auth\AuthenticationResponse.class
 ThreatSummaryPrinter.class
 com\ankit\deeppacketinspection\api\controller\HealthController.class
@@ -43,6 +47,7 @@ ApiResponse.class
 com\ankit\deeppacketinspection\auth\service\CustomUserDetailsService.class
 com\ankit\deeppacketinspection\parser\TlsParser.class
 com\ankit\deeppacketinspection\api\dto\AIInsight.class
+com\ankit\deeppacketinspection\history\repository\AnalysisHistoryRepository.class
 com\ankit\deeppacketinspection\model\ParsedPacket.class
 com\ankit\deeppacketinspection\parser\PacketParserService.class
 com\ankit\deeppacketinspection\report\ReportGenerator.class
@@ -58,9 +63,12 @@ com\ankit\deeppacketinspection\analysis\StatisticsEngine.class
 com\ankit\deeppacketinspection\parser\IPv4Parser.class
 com\ankit\deeppacketinspection\api\controller\ReportController.class
 JsonnUtils.class
+com\ankit\deeppacketinspection\api\service\PdfReportService.class
 com\ankit\deeppacketinspection\config\CorsConfig.class
 com\ankit\deeppacketinspection\parser\IPv6Parser.class
+com\ankit\deeppacketinspection\auth\security\JwtAuthenticationFilter.class
 com\ankit\deeppacketinspection\model\AnalysisResult.class
+com\ankit\deeppacketinspection\history\entity\AnalysisHistory.class
 com\ankit\deeppacketinspection\api\controller\AnalysisController.class
 StatisticsService.class
 com\ankit\deeppacketinspection\auth\config\PasswordConfig.class

@@ -1,15 +1,27 @@
 package com.ankit.deeppacketinspection.api.controller;
 
+import com.ankit.deeppacketinspection.api.service.PdfReportService;
+
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/report")
 public class ReportController {
+
+    private final PdfReportService pdfReportService;
+
+    public ReportController(
+            PdfReportService pdfReportService) {
+
+        this.pdfReportService = pdfReportService;
+
+    }
 
     @GetMapping("/json")
     public ResponseEntity<Resource> downloadJson() {
@@ -25,9 +37,8 @@ public class ReportController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .header(
-                    HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=traffic_report.json"
-                )
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=traffic_report.json")
                 .body(resource);
     }
 
@@ -45,9 +56,25 @@ public class ReportController {
         return ResponseEntity.ok()
                 .contentType(MediaType.TEXT_PLAIN)
                 .header(
-                    HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=traffic_report.txt"
-                )
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=traffic_report.txt")
                 .body(resource);
     }
+
+    @GetMapping("/pdf")
+    public ResponseEntity<Resource> downloadPdf()
+            throws IOException {
+
+        File file = pdfReportService.generatePdf();
+
+        Resource resource = new FileSystemResource(file);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=traffic_report.pdf")
+                .body(resource);
+    }
+
 }
