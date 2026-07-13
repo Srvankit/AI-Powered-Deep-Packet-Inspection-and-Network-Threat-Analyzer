@@ -35,7 +35,7 @@ function MainLayout() {
 
                     {!authPage && <Sidebar />}
 
-                    <main className="flex-1 p-8 overflow-auto">
+                    <main className="flex-1 px-10 py-8 overflow-auto">
 
                         <Routes>
 

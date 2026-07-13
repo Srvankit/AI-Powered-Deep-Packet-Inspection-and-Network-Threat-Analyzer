@@ -1,3 +1,10 @@
+import { motion } from "framer-motion";
+import {
+    Network,
+    Search,
+    Activity
+} from "lucide-react";
+
 import FlowRow from "./FlowRow";
 import { useAnalysis } from "../../hooks/useAnalysis";
 
@@ -7,62 +14,222 @@ function FlowTable() {
 
     if (!analysis) {
 
-        return null;
+        return (
+
+            <div className="mt-16 rounded-3xl border border-white/10 bg-slate-900/70 p-10 backdrop-blur-3xl">
+
+                <div className="flex flex-col items-center">
+
+                    <Network
+                        size={60}
+                        className="text-cyan-400"
+                    />
+
+                    <h2 className="mt-5 text-2xl font-bold text-white">
+
+                        No Network Flows
+
+                    </h2>
+
+                    <p className="mt-3 text-slate-400">
+
+                        Upload a PCAP file to inspect active flows.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        );
 
     }
 
     return (
 
-        <div className="mt-10 bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden">
+        <motion.div
 
-            <div className="px-6 py-4 border-b border-slate-700">
+            initial={{
+                opacity: 0,
+                y: 30
+            }}
 
-                <h2 className="text-2xl font-bold text-white">
+            animate={{
+                opacity: 1,
+                y: 0
+            }}
 
-                    Network Flows
+            transition={{
+                duration: .5
+            }}
 
-                </h2>
+            className="
+                mt-16
+                overflow-hidden
+                rounded-3xl
+                border
+                border-white/10
+                bg-slate-900/70
+                backdrop-blur-3xl
+                shadow-[0_15px_40px_rgba(0,0,0,.35)]
+            "
+
+        >
+
+            {/* Header */}
+
+            <div className="flex flex-col gap-6 border-b border-white/10 p-10 lg:flex-row lg:items-center lg:justify-between">
+
+                <div>
+
+                    <div className="flex items-center gap-3">
+
+                        <div className="rounded-2xl bg-cyan-500/10 p-3">
+
+                            <Network
+                                size={24}
+                                className="text-cyan-400"
+                            />
+
+                        </div>
+
+                        <div>
+
+                            <h2 className="text-3xl font-bold text-white">
+
+                                Network Flows
+
+                            </h2>
+
+                            <p className="mt-1 text-slate-400">
+
+                                Live communication detected by the DPI engine
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div className="flex items-center gap-4">
+
+                    <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-slate-800/70 px-4 py-3">
+
+                        <Search
+                            size={18}
+                            className="text-slate-400"
+                        />
+
+                        <input
+
+                            placeholder="Search Flow..."
+
+                            className="bg-transparent outline-none placeholder:text-slate-500"
+
+                        />
+
+                    </div>
+
+                    <div className="flex items-center gap-2 rounded-full bg-green-500/10 px-4 py-2">
+
+                        <Activity
+                            size={16}
+                            className="text-green-400"
+                        />
+
+                        <span className="text-sm font-medium text-green-400">
+
+                            Live
+
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <table className="w-full text-left">
+            {/* Table */}
 
-                <thead className="bg-slate-800">
+            <div className="overflow-x-auto">
 
-                    <tr>
+                <table className="w-full">
 
-                        <th className="px-4 py-3">Source IP</th>
+                    <thead className="border-b border-white/10 bg-slate-800/60">
 
-                        <th className="px-4 py-3">Destination IP</th>
+                        <tr className="text-left text-sm uppercase tracking-wider text-slate-400">
 
-                        <th className="px-4 py-3">Protocol</th>
+                            <th className="px-8 py-6">
 
-                        <th className="px-4 py-3">Packets</th>
+                                Source
 
-                        <th className="px-4 py-3">Bytes</th>
+                            </th>
 
-                        <th className="px-4 py-3">Duration</th>
+                            <th className="px-8 py-6">
 
-                    </tr>
+                                Destination
 
-                </thead>
+                            </th>
 
-                <tbody>
+                            <th className="px-8 py-6">
 
-                    {analysis.flowTable.allFlows.map((flow, index) => (
+                                Protocol
 
-                        <FlowRow
-                            key={index}
-                            flow={flow}
-                        />
+                            </th>
 
-                    ))}
+                            <th className="px-8 py-6">
 
-                </tbody>
+                                Packets
 
-            </table>
+                            </th>
 
-        </div>
+                            <th className="px-8 py-6">
+
+                                Bytes
+
+                            </th>
+
+                            <th className="px-8 py-6">
+
+                                Duration
+
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {
+
+                            analysis.flowTable.allFlows.map(
+
+                                (flow, index) => (
+
+                                    <FlowRow
+
+                                        key={index}
+
+                                        flow={flow}
+
+                                    />
+
+                                )
+
+                            )
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </motion.div>
 
     );
 

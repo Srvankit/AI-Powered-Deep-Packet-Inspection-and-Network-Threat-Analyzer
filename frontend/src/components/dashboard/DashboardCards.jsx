@@ -91,7 +91,7 @@ function DashboardCards() {
 
     return (
 
-        <div className="grid grid-cols-4 gap-6 mt-10">
+        <div className="grid grid-cols-4 gap-8 mt-8">
 
             {/* Row 1 */}
 

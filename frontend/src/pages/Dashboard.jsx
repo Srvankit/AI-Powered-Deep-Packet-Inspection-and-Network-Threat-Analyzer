@@ -17,13 +17,21 @@ function Dashboard() {
 
             <DashboardHeader />
 
-            <DashboardCards />
+            <div className="mt-12">
+                <DashboardCards />
+            </div>
 
-            <FlowTable />
+            <div className="mt-20">
+                <FlowTable />
+            </div>
 
-            <ThreatPanel />
+            <div className="mt-20">
+                <ThreatPanel />
+            </div>
 
-            <DashboardCharts />
+            <div className="mt-20 mb-16">
+                <DashboardCharts />
+            </div>
 
         </div>
     );
