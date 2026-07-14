@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import CountUp from "react-countup";
 
 import {
     Database,
@@ -19,9 +20,7 @@ function StatisticsCard({
 
     title,
 
-    value,
-
-    color
+    value
 
 }) {
 
@@ -78,11 +77,11 @@ function StatisticsCard({
                 duration: .35
             }}
 
-            className={`
+            className="
                 relative
                 overflow-hidden
                 rounded-3xl
-                min-h-[170px]
+                min-h-[180px]
                 border
                 border-white/10
                 bg-slate-900/70
@@ -93,18 +92,18 @@ function StatisticsCard({
                 hover:shadow-[0_0_35px_rgba(6,182,212,.18)]
                 transition-all
                 duration-300
-            `}
+            "
 
         >
 
-            {/* Gradient Line */}
+            {/* Top Gradient */}
 
             <div
 
                 className="
                     absolute
-                    left-0
                     top-0
+                    left-0
                     h-1
                     w-full
                     bg-gradient-to-r
@@ -117,19 +116,27 @@ function StatisticsCard({
 
             {/* Header */}
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
 
                 <div>
 
-                    <p className="text-base font-medium text-slate-400">
+                    <p className="text-sm uppercase tracking-widest text-slate-400">
 
                         {title}
 
                     </p>
 
-                    <h2 className="mt-10 text-5xl font-black text-white">
+                    <h2 className="mt-8 text-5xl font-black text-white">
 
-                        {value}
+                        <CountUp
+
+                            end={Number(value) || 0}
+
+                            duration={2}
+
+                            separator=","
+
+                        />
 
                     </h2>
 
@@ -154,19 +161,29 @@ function StatisticsCard({
 
             {/* Footer */}
 
-            <div className="mt-6 flex items-center justify-between">
+            <div className="absolute bottom-8 left-8 right-8">
 
-                <span className="text-xs uppercase tracking-widest text-slate-500">
+                <div className="flex items-center justify-between">
 
-                    Live Metric
+                    <span className="text-xs uppercase tracking-[0.2em] text-slate-500">
 
-                </span>
+                        Live Metric
 
-                <span className="rounded-full bg-green-500/10 px-3 py-1 text-xs font-semibold text-green-400">
+                    </span>
 
-                    Active
+                    <div className="flex items-center gap-2">
 
-                </span>
+                        <span className="h-2.5 w-2.5 rounded-full bg-green-400 animate-pulse"></span>
+
+                        <span className="text-xs font-semibold text-green-400">
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 

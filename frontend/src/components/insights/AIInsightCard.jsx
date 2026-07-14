@@ -1,4 +1,13 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+import {
+    BrainCircuit,
+    ShieldAlert,
+    ShieldCheck,
+    Sparkles,
+    CheckCircle2
+} from "lucide-react";
 
 import { getInsights } from "../../api/insightApi";
 
@@ -34,9 +43,13 @@ function AIInsightCard() {
 
         return (
 
-            <div className="text-white text-xl">
+            <div className="flex justify-center py-24">
 
-                Loading AI Insights...
+                <div className="text-xl text-cyan-400 animate-pulse">
+
+                    Loading AI Insights...
+
+                </div>
 
             </div>
 
@@ -44,55 +57,127 @@ function AIInsightCard() {
 
     }
 
+    const riskColor =
+
+        insight.riskLevel === "HIGH"
+
+            ? "text-red-400"
+
+            : insight.riskLevel === "MEDIUM"
+
+            ? "text-yellow-400"
+
+            : "text-green-400";
+
     return (
 
-        <div className="max-w-6xl mx-auto">
+        <motion.div
 
-            <h1 className="text-4xl font-bold text-white">
+            initial={{ opacity: 0, y: 20 }}
 
-                AI Security Insights
+            animate={{ opacity: 1, y: 0 }}
 
-            </h1>
+            transition={{ duration: 0.5 }}
 
-            <p className="text-slate-400 mt-2">
+            className="mx-auto max-w-7xl"
 
-                AI generated security assessment based on packet analysis.
+        >
 
-            </p>
+            {/* Header */}
 
-            <div className="grid grid-cols-3 gap-6 mt-8">
+            <div className="mb-10">
 
-                <div className="bg-slate-900 rounded-xl p-6">
+                <div className="flex items-center gap-4">
 
-                    <h2 className="text-cyan-400 text-lg">
+                    <div className="rounded-2xl bg-cyan-500/10 p-4">
 
-                        Risk Score
+                        <BrainCircuit
 
-                    </h2>
+                            className="text-cyan-400"
 
-                    <h1 className="text-6xl font-bold text-white mt-3">
+                            size={32}
 
-                        {insight.riskScore}
+                        />
 
-                    </h1>
+                    </div>
 
-                    <p className="mt-4 text-green-400 font-semibold">
+                    <div>
 
-                        {insight.riskLevel}
+                        <h1 className="text-4xl font-black text-white">
 
-                    </p>
+                            AI Security Insights
+
+                        </h1>
+
+                        <p className="mt-2 text-lg text-slate-400">
+
+                            AI-generated security assessment based on Deep Packet Inspection.
+
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <div className="bg-slate-900 rounded-xl p-6 col-span-2">
+            </div>
 
-                    <h2 className="text-cyan-400 text-lg">
+            {/* Top Cards */}
 
-                        AI Summary
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                {/* Risk Score */}
+
+                <div className="rounded-3xl border border-white/10 bg-slate-900/70 backdrop-blur-3xl p-8">
+
+                    <div className="flex items-center justify-between">
+
+                        <ShieldAlert className="text-red-400" size={30} />
+
+                        <span className="text-sm text-slate-400">
+
+                            Risk Score
+
+                        </span>
+
+                    </div>
+
+                    <h2 className="mt-8 text-7xl font-black text-white">
+
+                        {insight.riskScore}
 
                     </h2>
 
-                    <p className="text-slate-300 mt-5 leading-8">
+                    <div className={`mt-5 text-2xl font-bold ${riskColor}`}>
+
+                        {insight.riskLevel}
+
+                    </div>
+
+                </div>
+
+                {/* AI Summary */}
+
+                <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-slate-900/70 backdrop-blur-3xl p-8">
+
+                    <div className="flex items-center gap-3">
+
+                        <Sparkles
+
+                            size={24}
+
+                            className="text-cyan-400"
+
+                        />
+
+                        <h2 className="text-2xl font-bold text-white">
+
+                            AI Summary
+
+                        </h2>
+
+                    </div>
+
+                    <p className="mt-6 leading-8 text-slate-300 text-lg">
 
                         {insight.summary}
 
@@ -102,15 +187,29 @@ function AIInsightCard() {
 
             </div>
 
-            <div className="bg-slate-900 rounded-xl p-8 mt-8">
+            {/* Recommendations */}
 
-                <h2 className="text-2xl font-bold text-white">
+            <div className="mt-10 rounded-3xl border border-white/10 bg-slate-900/70 backdrop-blur-3xl p-8">
 
-                    Recommendations
+                <div className="flex items-center gap-3">
 
-                </h2>
+                    <ShieldCheck
 
-                <div className="grid grid-cols-2 gap-5 mt-6">
+                        size={26}
+
+                        className="text-green-400"
+
+                    />
+
+                    <h2 className="text-3xl font-bold text-white">
+
+                        Security Recommendations
+
+                    </h2>
+
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
 
                     {
 
@@ -118,21 +217,46 @@ function AIInsightCard() {
 
                             (item, index) => (
 
-                                <div
+                                <motion.div
 
                                     key={index}
 
-                                    className="bg-slate-800 rounded-lg p-5 border border-slate-700"
+                                    whileHover={{
+
+                                        y: -5
+
+                                    }}
+
+                                    className="
+                                        rounded-2xl
+                                        border
+                                        border-white/10
+                                        bg-slate-800/60
+                                        p-6
+                                        transition
+                                    "
 
                                 >
 
-                                    <p className="text-slate-200">
+                                    <div className="flex items-start gap-4">
 
-                                        ✅ {item}
+                                        <CheckCircle2
 
-                                    </p>
+                                            size={22}
 
-                                </div>
+                                            className="text-green-400 mt-1"
+
+                                        />
+
+                                        <p className="text-slate-300 leading-7">
+
+                                            {item}
+
+                                        </p>
+
+                                    </div>
+
+                                </motion.div>
 
                             )
 
@@ -144,7 +268,7 @@ function AIInsightCard() {
 
             </div>
 
-        </div>
+        </motion.div>
 
     );
 

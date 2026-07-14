@@ -1,4 +1,11 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+    UploadCloud,
+    FileText,
+    CheckCircle2,
+    Loader2
+} from "lucide-react";
 
 import UploadButton from "./UploadButton";
 import UploadProgress from "./UploadProgress";
@@ -11,13 +18,17 @@ function UploadCard() {
 
     const [loading, setLoading] = useState(false);
 
+    const [message, setMessage] = useState("");
+
+    const [error, setError] = useState("");
+
     const { setAnalysis } = useAnalysis();
 
     const handleAnalyze = async () => {
 
         if (!file) {
 
-            alert("Please select a PCAP file.");
+            setError("Please select a PCAP file.");
 
             return;
 
@@ -27,23 +38,23 @@ function UploadCard() {
 
             setLoading(true);
 
-            const result = await analyzePcap(file);
+            setError("");
 
-            console.log("API Result:", result);
+            setMessage("");
+
+            const result = await analyzePcap(file);
 
             setAnalysis(result);
 
-            console.log("Analysis Stored");
-
-            alert("Analysis Completed!");
+            setMessage("Analysis completed successfully.");
 
         }
 
-        catch (error) {
+        catch (err) {
 
-            console.error(error);
+            console.error(err);
 
-            alert("Analysis Failed");
+            setError("Analysis failed. Please try again.");
 
         }
 
@@ -57,54 +68,235 @@ function UploadCard() {
 
     return (
 
-        <div className="max-w-3xl mx-auto bg-slate-900 rounded-2xl p-10 border border-slate-700 shadow-xl">
+        <motion.div
 
-            <h2 className="text-3xl font-bold text-white">
+            initial={{
+                opacity: 0,
+                y: 25
+            }}
 
-                Upload PCAP
+            animate={{
+                opacity: 1,
+                y: 0
+            }}
 
-            </h2>
+            transition={{
+                duration: .5
+            }}
 
-            <p className="text-slate-400 mt-2">
+            className="
+                mx-auto
+                max-w-4xl
+                rounded-3xl
+                border
+                border-white/10
+                bg-slate-900/70
+                p-10
+                backdrop-blur-3xl
+                shadow-[0_15px_45px_rgba(0,0,0,.35)]
+            "
 
-                Select a packet capture file to begin analysis.
+        >
 
-            </p>
+            <div className="flex items-center gap-4">
 
-            <input
-                type="file"
-                accept=".pcap,.pcapng"
-                className="mt-8 block w-full text-slate-300"
-                onChange={(e) => setFile(e.target.files[0])}
-            />
+                <div className="rounded-2xl bg-cyan-500/10 p-4">
 
-            {file && (
+                    <UploadCloud
 
-                <p className="mt-4 text-cyan-400">
+                        size={30}
 
-                    Selected File:
+                        className="text-cyan-400"
 
-                    {" "}
+                    />
 
-                    {file.name}
+                </div>
 
-                </p>
+                <div>
 
-            )}
+                    <h2 className="text-3xl font-bold text-white">
 
-            <UploadProgress loading={loading} />
+                        Upload Network Capture
 
-            <div className="mt-8">
+                    </h2>
 
-                <UploadButton
-                    loading={loading}
-                    disabled={!file}
-                    onClick={handleAnalyze}
-                />
+                    <p className="mt-2 text-slate-400">
+
+                        Upload a .pcap or .pcapng file to perform AI-powered Deep Packet Inspection.
+
+                    </p>
+
+                </div>
 
             </div>
 
-        </div>
+            <label
+
+                className="
+                    mt-10
+                    flex
+                    cursor-pointer
+                    flex-col
+                    items-center
+                    justify-center
+                    rounded-3xl
+                    border-2
+                    border-dashed
+                    border-cyan-500/30
+                    bg-cyan-500/5
+                    p-14
+                    transition
+                    hover:border-cyan-400
+                    hover:bg-cyan-500/10
+                "
+
+            >
+
+                <UploadCloud
+
+                    size={52}
+
+                    className="text-cyan-400"
+
+                />
+
+                <h3 className="mt-5 text-xl font-semibold text-white">
+
+                    Drag & Drop or Click to Upload
+
+                </h3>
+
+                <p className="mt-2 text-slate-400">
+
+                    Supported formats: .pcap, .pcapng
+
+                </p>
+
+                <input
+
+                    type="file"
+
+                    accept=".pcap,.pcapng"
+
+                    className="hidden"
+
+                    onChange={(e) => {
+
+                        setFile(e.target.files[0]);
+
+                        setError("");
+
+                        setMessage("");
+
+                    }}
+
+                />
+
+            </label>
+
+            {file && (
+
+                <div className="mt-8 flex items-center gap-4 rounded-2xl bg-slate-800/70 p-5">
+
+                    <FileText
+
+                        size={28}
+
+                        className="text-cyan-400"
+
+                    />
+
+                    <div className="flex-1">
+
+                        <p className="font-semibold text-white">
+
+                            {file.name}
+
+                        </p>
+
+                        <p className="text-sm text-slate-400">
+
+                            {(file.size / 1024).toFixed(2)} KB
+
+                        </p>
+
+                    </div>
+
+                    <CheckCircle2
+
+                        className="text-green-400"
+
+                    />
+
+                </div>
+
+            )}
+
+            <div className="mt-8">
+
+                <UploadProgress loading={loading} />
+
+            </div>
+
+            {message && (
+
+                <div className="mt-6 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 text-green-400">
+
+                    {message}
+
+                </div>
+
+            )}
+
+            {error && (
+
+                <div className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-red-400">
+
+                    {error}
+
+                </div>
+
+            )}
+
+            <div className="mt-10">
+
+                <UploadButton
+
+                    loading={loading}
+
+                    disabled={!file}
+
+                    onClick={handleAnalyze}
+
+                >
+
+                    {loading ? (
+
+                        <div className="flex items-center justify-center gap-2">
+
+                            <Loader2
+
+                                className="animate-spin"
+
+                                size={20}
+
+                            />
+
+                            Analyzing...
+
+                        </div>
+
+                    ) : (
+
+                        "Start Analysis"
+
+                    )}
+
+                </UploadButton>
+
+            </div>
+
+        </motion.div>
 
     );
 

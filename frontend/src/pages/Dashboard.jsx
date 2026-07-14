@@ -1,39 +1,74 @@
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardCards from "../components/dashboard/DashboardCards";
-import { useAnalysis } from "../hooks/useAnalysis";
+import DashboardCharts from "../components/dashboard/DashboardCharts";
+import DashboardSkeleton from "../components/dashboard/DashboardSkeleton";
 import FlowTable from "../components/dashboard/FlowTable";
 import ThreatPanel from "../components/dashboard/ThreatPanel";
-import DashboardCharts from "../components/dashboard/DashboardCharts";
+import EmptyState from "../components/common/EmptyState";
+import { ShieldAlert } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+
+import { useAnalysis } from "../hooks/useAnalysis";
 
 function Dashboard() {
 
     const { analysis } = useAnalysis();
 
-    console.log("Dashboard Render");
-    console.log("Analysis =", analysis);
+    if (!analysis) {
+
+        return (
+
+            <EmptyState
+
+                icon={<ShieldAlert size={80} />}
+
+                title="No Analysis Available"
+
+                description="Upload your first PCAP file to begin AI-powered Deep Packet Inspection, threat detection, protocol analysis and security reporting."
+
+                buttonText="Upload PCAP"
+
+                onClick={() => navigate("/upload")}
+
+            />
+
+        );
+
+    }
 
     return (
-        <div>
+
+        <div className="pb-16">
 
             <DashboardHeader />
 
             <div className="mt-12">
+
                 <DashboardCards />
+
             </div>
 
             <div className="mt-20">
+
                 <FlowTable />
+
             </div>
 
             <div className="mt-20">
+
                 <ThreatPanel />
+
             </div>
 
-            <div className="mt-20 mb-16">
+            <div className="mt-20">
+
                 <DashboardCharts />
+
             </div>
 
         </div>
+
     );
 
 }

@@ -14,6 +14,8 @@ import AIInsights from "../../pages/AIInsights";
 import Login from "../../pages/Login";
 import Register from "../../pages/Register";
 import { useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import NotFound from "../../pages/NotFound";
 
 import ProtectedRoute from "../auth/ProtectedRoute";
 
@@ -35,87 +37,130 @@ function MainLayout() {
 
                     {!authPage && <Sidebar />}
 
-                    <main className="flex-1 px-10 py-8 overflow-auto">
+                    <main className="flex-1 overflow-auto px-10 py-8">
 
-                        <Routes>
+                        <AnimatePresence mode="wait">
 
-                            <Route path="/login" element={<Login />} />
+                            <motion.div
 
-                            <Route path="/register" element={<Register />} />
+                                key={location.pathname}
 
-                            <Route
-                                path="/"
-                                element={
-                                    <ProtectedRoute>
-                                        <Dashboard />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                initial={{
+                                    opacity: 0,
+                                    y: 15
+                                }}
 
-                            <Route
-                                path="/dashboard"
-                                element={
-                                    <ProtectedRoute>
-                                        <Dashboard />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                animate={{
+                                    opacity: 1,
+                                    y: 0
+                                }}
 
-                            <Route
-                                path="/upload"
-                                element={
-                                    <ProtectedRoute>
-                                        <Upload />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                exit={{
+                                    opacity: 0,
+                                    y: -15
+                                }}
 
-                            <Route
-                                path="/flows"
-                                element={
-                                    <ProtectedRoute>
-                                        <Flows />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                transition={{
+                                    duration: 0.25
+                                }}
 
-                            <Route
-                                path="/reports"
-                                element={
-                                    <ProtectedRoute>
-                                        <Reports />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                className="h-full"
 
-                            <Route
-                                path="/history"
-                                element={
-                                    <ProtectedRoute>
-                                        <History />
-                                    </ProtectedRoute>
-                                }
-                            />
+                            >
 
-                            <Route
-                                path="/settings"
-                                element={
-                                    <ProtectedRoute>
-                                        <Settings />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                <Routes>
 
-                            <Route
-                                path="/insights"
-                                element={
-                                    <ProtectedRoute>
-                                        <AIInsights />
-                                    </ProtectedRoute>
-                                }
-                            />
+                                    <Route path="/login" element={<Login />} />
 
-                        </Routes>
+                                    <Route path="/register" element={<Register />} />
+
+                                    <Route
+                                        path="/"
+                                        element={
+                                            <ProtectedRoute>
+                                                <Dashboard />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/dashboard"
+                                        element={
+                                            <ProtectedRoute>
+                                                <Dashboard />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/upload"
+                                        element={
+                                            <ProtectedRoute>
+                                                <Upload />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/flows"
+                                        element={
+                                            <ProtectedRoute>
+                                                <Flows />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/reports"
+                                        element={
+                                            <ProtectedRoute>
+                                                <Reports />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/history"
+                                        element={
+                                            <ProtectedRoute>
+                                                <History />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/settings"
+                                        element={
+                                            <ProtectedRoute>
+                                                <Settings />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    <Route
+                                        path="/insights"
+                                        element={
+                                            <ProtectedRoute>
+                                                <AIInsights />
+                                            </ProtectedRoute>
+                                        }
+                                    />
+
+                                    {/* 404 Page */}
+
+                                    <Route
+
+                                        path="*"
+
+                                        element={<NotFound />}
+
+                                    />
+
+                                </Routes>
+
+                            </motion.div>
+
+                        </AnimatePresence>
 
                     </main>
 
