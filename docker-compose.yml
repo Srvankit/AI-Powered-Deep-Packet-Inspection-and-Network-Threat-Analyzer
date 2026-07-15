@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: dpi-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: dpi_db
+      POSTGRES_USER: dpi_user
+      POSTGRES_PASSWORD: dpi_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dpi_user -d dpi_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+    networks:
+      - dpi-network
+
+
+  backend:
+    build:
+      context: ./backend
+
+    container_name: dpi-backend
+
+    restart: unless-stopped
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/dpi_db
+      SPRING_DATASOURCE_USERNAME: dpi_user
+      SPRING_DATASOURCE_PASSWORD: dpi_password
+
+    ports:
+      - "8080:8080"
+
+    networks:
+      - dpi-network
+
+
+  frontend:
+    build:
+      context: ./frontend
+
+    container_name: dpi-frontend
+
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "80:80"
+
+    networks:
+      - dpi-network
+
+
+volumes:
+
+  postgres_data:
+
+
+networks:
+
+  dpi-network:
+    driver: bridge
