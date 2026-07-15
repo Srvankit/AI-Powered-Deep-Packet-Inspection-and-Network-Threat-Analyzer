@@ -300,7 +300,7 @@ The application includes a modern enterprise dashboard inspired by professional 
 Secure authentication powered by Spring Security and JWT.
 
 <p align="center">
-<img src="./docs/screenshots/login.png" width="90%">
+<img src="./docs/screenshots/login.jpeg" width="90%">
 </p>
 
 ---
@@ -310,7 +310,7 @@ Secure authentication powered by Spring Security and JWT.
 Real-time analytics dashboard displaying packet statistics, protocol distribution, traffic analysis, and detected threats.
 
 <p align="center">
-<img src="./docs/screenshots/dashboard.png" width="90%">
+<img src="./docs/screenshots/dashboard.jpeg" width="90%">
 </p>
 
 ---
@@ -320,7 +320,7 @@ Real-time analytics dashboard displaying packet statistics, protocol distributio
 Upload `.pcap` and `.pcapng` files for automated Deep Packet Inspection.
 
 <p align="center">
-<img src="./docs/screenshots/upload.png" width="90%">
+<img src="./docs/screenshots/upload.jpeg" width="90%">
 </p>
 
 ---
@@ -330,7 +330,7 @@ Upload `.pcap` and `.pcapng` files for automated Deep Packet Inspection.
 View reconstructed network flows including packet count, bytes transferred, protocols, and communication duration.
 
 <p align="center">
-<img src="./docs/screenshots/flow-analysis.png" width="90%">
+<img src="./docs/screenshots/flow-analysis.jpeg" width="90%">
 </p>
 
 ---
@@ -346,7 +346,7 @@ Automatically detects suspicious traffic including:
 - Suspicious Ports
 
 <p align="center">
-<img src="./docs/screenshots/threat-report.png" width="90%">
+<img src="./docs/screenshots/threat-report.jpeg" width="90%">
 </p>
 
 ---
@@ -360,7 +360,7 @@ Visual representation of network traffic.
 - Threat Overview
 
 <p align="center">
-<img src="./docs/screenshots/statistics.png" width="90%">
+<img src="./docs/screenshots/statistics.jpeg" width="90%">
 </p>
 
 ---
@@ -374,7 +374,7 @@ Export detailed analysis in multiple formats.
 - TXT
 
 <p align="center">
-<img src="./docs/screenshots/reports.png" width="90%">
+<img src="./docs/screenshots/reports.jpeg" width="90%">
 </p>
 
 ---
@@ -384,7 +384,7 @@ Export detailed analysis in multiple formats.
 Interactive API documentation generated using Swagger.
 
 <p align="center">
-<img src="./docs/screenshots/swagger-ui.png" width="90%">
+<img src="./docs/screenshots/swagger-ui.jpeg" width="90%">
 </p>
 
 ---
