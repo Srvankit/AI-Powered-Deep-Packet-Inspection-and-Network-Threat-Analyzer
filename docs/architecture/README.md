@@ -34,9 +34,9 @@ PostgreSQL Database
 
 File
 
-```
-dpi-architecture.png
-```
+<p align="center">
+  <img src="./dpi-architecture.png" alt="dpi-architecture" width="100%">
+</p>
 
 This diagram illustrates the complete workflow of the application from the user interface to packet analysis and report generation.
 
@@ -55,9 +55,9 @@ It includes
 
 File
 
-```
-frontend-architecture.png
-```
+<p align="center">
+  <img src="./frontend-architecture.png" alt="frontend-architecture" width="100%">
+</p>
 
 The frontend is built using React and follows a component-based architecture.
 
@@ -86,9 +86,9 @@ Responsibilities
 
 File
 
-```
-backend-architecture.png
-```
+<p align="center">
+  <img src="./backend-architecture.png" alt="backend-architecture" width="100%">
+</p>
 
 The backend follows the Spring Boot layered architecture.
 
@@ -118,13 +118,11 @@ Major modules
 
 ## 4️⃣ Database Schema
 
-File
-
-```
-database-schema.png
-```
-
 The database schema defines how application data is stored.
+
+<p align="center">
+  <img src="./database-schema.png" alt="Database Schema" width="100%">
+</p>
 
 Major entities include
 
@@ -140,9 +138,9 @@ PostgreSQL is used as the primary database.
 
 File
 
-```
-request-lifecycle.png
-```
+<p align="center">
+  <img src="./request-lifecycle.png" alt="reqest-lifecycle" width="100%">
+</p>
 
 This diagram explains how an incoming request travels through the application.
 
