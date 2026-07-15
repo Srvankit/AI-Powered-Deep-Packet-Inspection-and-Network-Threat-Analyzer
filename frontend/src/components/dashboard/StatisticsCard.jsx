@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import CountUp from "react-countup";
+// import CountUp from "react-countup";
 
 import {
     Database,
@@ -52,7 +52,7 @@ function StatisticsCard({
 
     };
 
-    const Icon = iconMap[title] || Database;
+    const Icon = Database;
 
     return (
 
@@ -126,19 +126,9 @@ function StatisticsCard({
 
                     </p>
 
-                    <h2 className="mt-8 text-5xl font-black text-white">
-
-                        <CountUp
-
-                            end={Number(value) || 0}
-
-                            duration={2}
-
-                            separator=","
-
-                        />
-
-                    </h2>
+                   <h2 className="mt-8 text-5xl font-black text-white">
+                       {Number(value).toLocaleString()}
+                   </h2>
 
                 </div>
 
