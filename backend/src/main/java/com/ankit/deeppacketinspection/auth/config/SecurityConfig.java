@@ -122,11 +122,29 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
+
+                                "/",
+
+                                "/error",
+
+                                "/swagger-ui/**",
+
+                                "/swagger-ui.html",
+
+                                "/v3/api-docs/**",
+
                                 "/api/auth/**",
-                                "/api/analyze",
-                                "/api/flows",
-                                "/api/insights",
-                                "/api/report/**"
+
+                                "/api/analyze/**",
+
+                                "/api/flows/**",
+
+                                "/api/report/**",
+
+                                "/api/insights/**",
+
+                                "/api/history/**"
+
                         )
 
                         .permitAll()

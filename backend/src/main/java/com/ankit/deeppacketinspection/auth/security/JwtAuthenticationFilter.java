@@ -1,12 +1,11 @@
 package com.ankit.deeppacketinspection.auth.security;
 
 import com.ankit.deeppacketinspection.auth.service.CustomUserDetailsService;
-
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +21,6 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-
     private final CustomUserDetailsService userDetailsService;
 
     @Autowired
@@ -32,78 +30,72 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+    }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+
+        String path = request.getServletPath();
+
+        return path.equals("/")
+                || path.equals("/error")
+                || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.startsWith("/api/auth")
+                || path.startsWith("/api/analyze")
+                || path.startsWith("/api/flows")
+                || path.startsWith("/api/report")
+                || path.startsWith("/api/insights")
+                || path.startsWith("/api/history");
     }
 
     @Override
     protected void doFilterInternal(
-
             @NonNull HttpServletRequest request,
-
             @NonNull HttpServletResponse response,
-
             @NonNull FilterChain filterChain)
-
             throws ServletException, IOException {
 
-        final String authHeader =
-                request.getHeader("Authorization");
+        final String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null ||
-                !authHeader.startsWith("Bearer ")) {
-
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
-
             return;
-
         }
 
-        String jwt =
-                authHeader.substring(7);
+        try {
 
-        String username =
-                jwtService.extractUsername(jwt);
+            String jwt = authHeader.substring(7);
 
-        if (username != null &&
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication() == null) {
+            String username = jwtService.extractUsername(jwt);
 
-            UserDetails userDetails =
-                    userDetailsService
-                            .loadUserByUsername(username);
+            if (username != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            if (jwtService.isTokenValid(jwt, userDetails)) {
+                UserDetails userDetails =
+                        userDetailsService.loadUserByUsername(username);
 
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
+                if (jwtService.isTokenValid(jwt, userDetails)) {
 
-                                userDetails,
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities());
 
-                                null,
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request));
 
-                                userDetails.getAuthorities()
-
-                        );
-
-                authToken.setDetails(
-
-                        new WebAuthenticationDetailsSource()
-
-                                .buildDetails(request)
-
-                );
-
-                SecurityContextHolder
-                        .getContext()
-                        .setAuthentication(authToken);
-
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authToken);
+                }
             }
 
+        } catch (JwtException e) {
+            // Invalid or expired JWT -> continue without authentication
         }
 
         filterChain.doFilter(request, response);
-
     }
-
 }
