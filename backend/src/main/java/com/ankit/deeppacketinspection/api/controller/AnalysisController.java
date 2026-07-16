@@ -61,18 +61,18 @@ public class AnalysisController {
 
             stateService.setLatestAnalysis(result);
 
-            historyService.saveAnalysis(
-                    file.getOriginalFilename(),
-                    result
-            );
+            // historyService.saveAnalysis(
+            //         file.getOriginalFilename(),
+            //         result
+            // );
 
             Files.deleteIfExists(tempFile);
 
             return ResponseEntity.ok(result);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
 
-            return ResponseEntity.internalServerError().build();
+            throw new RuntimeException(e);
 
         }
     }

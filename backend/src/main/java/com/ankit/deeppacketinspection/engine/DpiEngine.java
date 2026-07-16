@@ -99,9 +99,9 @@ public class DpiEngine {
 
         PacketData packet = captureService.readNextPacket();
 
-        // if (packet == null) {
-        //     continue;
-        // }
+        if (packet == null) {
+            continue;
+        }
 
         ParsedPacket parsedPacket = parserService.parse(packet);
 
