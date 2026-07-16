@@ -35,7 +35,10 @@ public class AnalysisController {
         this.historyService = historyService;
     }
 
-    @PostMapping("/analyze")
+    @PostMapping( 
+            value = "/analyze",
+            consumes = "multipart/form-data"
+        )
     public ResponseEntity<AnalysisResult> analyze(
             @RequestParam("file") MultipartFile file) {
 
