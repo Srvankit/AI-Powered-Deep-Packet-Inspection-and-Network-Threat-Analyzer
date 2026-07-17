@@ -90,43 +90,45 @@ public class AuthService {
      */
     public AuthenticationResponse login(LoginRequest request) {
 
+    try {
+
+        System.out.println("STEP 1 - Authenticating user");
+
         authenticationManager.authenticate(
-
                 new UsernamePasswordAuthenticationToken(
-
                         request.getEmail(),
-
                         request.getPassword()
-
                 )
-
         );
+
+        System.out.println("STEP 2 - Authentication successful");
 
         UserDetails userDetails =
-                userDetailsService.loadUserByUsername(
-                        request.getEmail());
+                userDetailsService.loadUserByUsername(request.getEmail());
 
-        User user = repository.findByEmail(
-                request.getEmail()).orElseThrow();
+        System.out.println("STEP 3 - UserDetails loaded");
 
-        String token =
-                jwtService.generateToken(userDetails);
+        User user = repository.findByEmail(request.getEmail()).orElseThrow();
+
+        System.out.println("STEP 4 - User found in database");
+
+        String token = jwtService.generateToken(userDetails);
+
+        System.out.println("STEP 5 - JWT generated");
 
         return new AuthenticationResponse(
-
                 true,
-
                 "Login Successful",
-
                 user.getFullName(),
-
                 user.getEmail(),
-
                 user.getRole(),
-
                 token
-
         );
-        }
+
+    } catch (Exception e) {
+        e.printStackTrace();   // This is the important part
+        throw e;
+    }
+}
 
 }
