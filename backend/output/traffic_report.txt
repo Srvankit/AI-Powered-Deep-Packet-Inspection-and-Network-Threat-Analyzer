@@ -3,39 +3,39 @@
                  TRAFFIC REPORT
 ====================================================
 
-Generated On : 17-07-2026 09:57:11
+Generated On : 18-07-2026 09:50:45
 
 GENERAL STATISTICS
 --------------------------------------------
-Total Packets      : 27
-Total Bytes        : 5444
-Total Flows        : 16
+Total Packets      : 83
+Total Bytes        : 10329
+Total Flows        : 26
 
 NETWORK
 --------------------------------------------
 IPv4 Packets       : 0
-IPv6 Packets       : 27
+IPv6 Packets       : 83
 
 TRANSPORT
 --------------------------------------------
-TCP Packets        : 23
-UDP Packets        : 4
+TCP Packets        : 29
+UDP Packets        : 52
 
 APPLICATION
 --------------------------------------------
 HTTP Packets       : 0
-HTTPS Packets      : 22
-DNS Packets        : 0
+HTTPS Packets      : 73
+DNS Packets        : 4
 
 THREAT SUMMARY
 --------------------------------------------
-Large Packet Alerts      : 1
-DNS Alerts               : 0
+Large Packet Alerts      : 0
+DNS Alerts               : 4
 Suspicious Port Alerts   : 0
 SYN Flood Alerts         : 0
 Port Scan Alerts         : 0
 --------------------------------------------
-Total Alerts             : 1
+Total Alerts             : 4
 
 ====================================================
 End of Report

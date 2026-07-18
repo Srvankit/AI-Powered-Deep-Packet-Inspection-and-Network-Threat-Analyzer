@@ -1,23 +1,23 @@
 {
-  "generatedOn": "17-07-2026 09:57:11",
+  "generatedOn": "18-07-2026 09:50:45",
   "statistics": {
-    "totalPackets": 27,
-    "totalBytes": 5444,
-    "totalFlows": 16,
+    "totalPackets": 83,
+    "totalBytes": 10329,
+    "totalFlows": 26,
     "ipv4Packets": 0,
-    "ipv6Packets": 27,
-    "tcpPackets": 23,
-    "udpPackets": 4,
+    "ipv6Packets": 83,
+    "tcpPackets": 29,
+    "udpPackets": 52,
     "httpPackets": 0,
-    "httpsPackets": 22,
-    "dnsPackets": 0
+    "httpsPackets": 73,
+    "dnsPackets": 4
   },
   "threatSummary": {
-    "largePacketAlerts": 1,
-    "dnsAlerts": 0,
+    "largePacketAlerts": 0,
+    "dnsAlerts": 4,
     "suspiciousPortAlerts": 0,
     "synFloodAlerts": 0,
     "portScanAlerts": 0,
-    "totalAlerts": 1
+    "totalAlerts": 4
   }
 }

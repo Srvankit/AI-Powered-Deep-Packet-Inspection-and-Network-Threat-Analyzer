@@ -71,7 +71,6 @@ com\ankit\deeppacketinspection\model\AnalysisResult.class
 com\ankit\deeppacketinspection\history\entity\AnalysisHistory.class
 com\ankit\deeppacketinspection\api\controller\AnalysisController.class
 StatisticsService.class
-com\ankit\deeppacketinspection\auth\config\PasswordConfig.class
 com\ankit\deeppacketinspection\api\service\AIInsightService.class
 com\ankit\deeppacketinspection\flow\FlowTable.class
 com\ankit\deeppacketinspection\api\dto\CaptureStatus.class
