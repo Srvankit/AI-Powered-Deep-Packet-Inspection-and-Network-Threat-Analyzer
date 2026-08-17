@@ -42,3 +42,15 @@ backend/target/
 
 # IDE / build files
 backend/.idea/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Spring Boot / Java
+backend/target/
+*.class
+
+# IDE / build files
+backend/.idea/
