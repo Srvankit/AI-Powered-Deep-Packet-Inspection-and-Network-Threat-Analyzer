@@ -39,7 +39,7 @@ spring:
       write-dates-as-timestamps: false
 
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${PORT:8081}
   error:
     include-message: never
     include-stacktrace: never
