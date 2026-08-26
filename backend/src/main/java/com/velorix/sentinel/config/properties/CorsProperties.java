@@ -19,11 +19,13 @@ public record CorsProperties(
         // A blank/unset CORS_ALLOWED_ORIGINS must never silently reject every browser
         // client: fall back to the known Velorix Sentinel console origins.
         allowedOrigins = allowedOrigins == null || allowedOrigins.isEmpty()
-                ? List.of(
-                        "http://localhost:8080",
-                        "http://localhost:5173",
-                        "https://*.lovable.app",
-                        "https://*.lovableproject.com")
+                ?List.of(
+                "http://localhost:8080",
+                "http://localhost:5173",
+                "http://localhost:3000",
+                "https://velorixsentinel.netlify.app",
+                "https://*.lovable.app",
+                "https://*.lovableproject.com")
                 : List.copyOf(allowedOrigins);
         allowedMethods = allowedMethods == null || allowedMethods.isEmpty()
                 ? List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
