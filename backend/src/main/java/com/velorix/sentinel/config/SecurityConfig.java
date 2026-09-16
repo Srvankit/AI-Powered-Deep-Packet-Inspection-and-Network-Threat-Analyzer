@@ -19,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.beans.factory.ObjectProvider;
 
@@ -37,7 +36,6 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
-    private final CorsConfigurationSource corsConfigurationSource;
     private final ObjectProvider<ClientRegistrationRepository> clientRegistrations;
     private final OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
 
@@ -45,13 +43,11 @@ public class SecurityConfig {
             JwtAuthenticationFilter jwtAuthenticationFilter,
             JwtAuthenticationEntryPoint authenticationEntryPoint,
             JwtAccessDeniedHandler accessDeniedHandler,
-            CorsConfigurationSource corsConfigurationSource,
             ObjectProvider<ClientRegistrationRepository> clientRegistrations,
             OAuth2LoginSuccessHandler oauth2LoginSuccessHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
-        this.corsConfigurationSource = corsConfigurationSource;
         this.clientRegistrations = clientRegistrations;
         this.oauth2LoginSuccessHandler = oauth2LoginSuccessHandler;
     }
@@ -60,7 +56,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         var security = http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handling -> handling
                         .authenticationEntryPoint(authenticationEntryPoint)
