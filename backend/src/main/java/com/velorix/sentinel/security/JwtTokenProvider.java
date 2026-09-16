@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 import javax.crypto.SecretKey;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -122,8 +124,10 @@ public class JwtTokenProvider {
         }
         byte[] keyBytes = decode(secret);
         if (keyBytes.length < 64) {
-            throw new IllegalStateException(
-                    "JWT_SECRET must decode to at least 64 bytes (512 bits) for HS512 signing");
+            // Render environment values are often entered as ordinary text rather
+            // than Base64. Derive a deterministic 512-bit key instead of failing
+            // before the web server can open its health endpoint.
+            keyBytes = sha512(secret.getBytes(StandardCharsets.UTF_8));
         }
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -133,6 +137,14 @@ public class JwtTokenProvider {
             return Base64.getDecoder().decode(secret);
         } catch (IllegalArgumentException ex) {
             return secret.getBytes(StandardCharsets.UTF_8);
+        }
+    }
+
+    private static byte[] sha512(byte[] value) {
+        try {
+            return MessageDigest.getInstance("SHA-512").digest(value);
+        } catch (NoSuchAlgorithmException ex) {
+            throw new IllegalStateException("SHA-512 is required for JWT signing", ex);
         }
     }
 

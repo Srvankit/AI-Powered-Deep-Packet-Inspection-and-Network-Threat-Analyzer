@@ -28,6 +28,11 @@ spring:
           time_zone: UTC
     show-sql: ${JPA_SHOW_SQL:false}
 
+  flyway:
+    # A broken Render database configuration should fail quickly and visibly.
+    connect-retries: ${FLYWAY_CONNECT_RETRIES:1}
+    connect-retries-interval: ${FLYWAY_CONNECT_RETRIES_INTERVAL:1}
+
   servlet:
     multipart:
       enabled: true
