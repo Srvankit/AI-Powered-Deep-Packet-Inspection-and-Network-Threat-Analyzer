@@ -40,7 +40,7 @@ All configuration comes from environment variables — nothing is hardcoded. Cop
 | Variable | Purpose |
 | --- | --- |
 | `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | PostgreSQL connection |
-| `JWT_SECRET` | Base64, ≥ 64 bytes (`openssl rand -base64 64`) |
+| `JWT_SECRET` | A stable secret; preferably Base64 from `openssl rand -base64 64` |
 | `JWT_ACCESS_TOKEN_EXPIRATION` / `JWT_REFRESH_TOKEN_EXPIRATION` | ISO-8601 durations (`PT15M`, `P7D`) |
 | `CORS_ALLOWED_ORIGINS` | Comma separated frontend origins |
 | `FRONTEND_BASE_URL` | Public frontend URL used in verification and password-reset links |
