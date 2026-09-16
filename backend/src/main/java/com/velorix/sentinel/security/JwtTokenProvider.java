@@ -117,9 +117,8 @@ public class JwtTokenProvider {
 
     private static SecretKey resolveSigningKey(String secret) {
         if (secret == null || secret.isBlank()) {
-            log.warn("JWT_SECRET is not configured - generating an ephemeral key. "
-                    + "Tokens will be invalidated on restart. Configure JWT_SECRET before deploying.");
-            return Jwts.SIG.HS512.key().build();
+            throw new IllegalStateException(
+                    "JWT_SECRET is required. Generate a base64 secret with at least 64 bytes before starting the backend.");
         }
         byte[] keyBytes = decode(secret);
         if (keyBytes.length < 64) {

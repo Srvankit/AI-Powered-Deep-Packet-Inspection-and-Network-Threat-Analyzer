@@ -67,6 +67,7 @@ import { Route as IntelReportsRouteImport } from './routes/intel.reports'
 import { Route as IntelWatchlistsRouteImport } from './routes/intel.watchlists'
 import { Route as KnowledgeIndexRouteImport } from './routes/knowledge.index'
 import { Route as KnowledgeTopicRouteImport } from './routes/knowledge.$topic'
+import { Route as OauthCallbackRouteImport } from './routes/oauth.callback'
 import { Route as OpsIndexRouteImport } from './routes/ops.index'
 import { Route as OpsAlertsRouteImport } from './routes/ops.alerts'
 import { Route as OpsApiRouteImport } from './routes/ops.api'
@@ -383,6 +384,11 @@ const KnowledgeTopicRoute = KnowledgeTopicRouteImport.update({
   path: '/$topic',
   getParentRoute: () => KnowledgeRoute,
 } as any)
+const OauthCallbackRoute = OauthCallbackRouteImport.update({
+  id: '/oauth/callback',
+  path: '/oauth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpsIndexRoute = OpsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -564,6 +570,7 @@ export interface FileRoutesByFullPath {
   '/intel/reports': typeof IntelReportsRoute
   '/intel/watchlists': typeof IntelWatchlistsRoute
   '/knowledge/$topic': typeof KnowledgeTopicRoute
+  '/oauth/callback': typeof OauthCallbackRoute
   '/ops/alerts': typeof OpsAlertsRoute
   '/ops/api': typeof OpsApiRoute
   '/ops/backups': typeof OpsBackupsRoute
@@ -642,6 +649,7 @@ export interface FileRoutesByTo {
   '/intel/reports': typeof IntelReportsRoute
   '/intel/watchlists': typeof IntelWatchlistsRoute
   '/knowledge/$topic': typeof KnowledgeTopicRoute
+  '/oauth/callback': typeof OauthCallbackRoute
   '/ops/alerts': typeof OpsAlertsRoute
   '/ops/api': typeof OpsApiRoute
   '/ops/backups': typeof OpsBackupsRoute
@@ -727,6 +735,7 @@ export interface FileRoutesById {
   '/intel/reports': typeof IntelReportsRoute
   '/intel/watchlists': typeof IntelWatchlistsRoute
   '/knowledge/$topic': typeof KnowledgeTopicRoute
+  '/oauth/callback': typeof OauthCallbackRoute
   '/ops/alerts': typeof OpsAlertsRoute
   '/ops/api': typeof OpsApiRoute
   '/ops/backups': typeof OpsBackupsRoute
@@ -814,6 +823,7 @@ export interface FileRouteTypes {
     | '/intel/reports'
     | '/intel/watchlists'
     | '/knowledge/$topic'
+    | '/oauth/callback'
     | '/ops/alerts'
     | '/ops/api'
     | '/ops/backups'
@@ -892,6 +902,7 @@ export interface FileRouteTypes {
     | '/intel/reports'
     | '/intel/watchlists'
     | '/knowledge/$topic'
+    | '/oauth/callback'
     | '/ops/alerts'
     | '/ops/api'
     | '/ops/backups'
@@ -976,6 +987,7 @@ export interface FileRouteTypes {
     | '/intel/reports'
     | '/intel/watchlists'
     | '/knowledge/$topic'
+    | '/oauth/callback'
     | '/ops/alerts'
     | '/ops/api'
     | '/ops/backups'
@@ -1033,6 +1045,7 @@ export interface RootRouteChildren {
   UnauthorizedRoute: typeof UnauthorizedRoute
   UploadRoute: typeof UploadRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  OauthCallbackRoute: typeof OauthCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1443,6 +1456,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KnowledgeTopicRouteImport
       parentRoute: typeof KnowledgeRoute
     }
+    '/oauth/callback': {
+      id: '/oauth/callback'
+      path: '/oauth/callback'
+      fullPath: '/oauth/callback'
+      preLoaderRoute: typeof OauthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ops/': {
       id: '/ops/'
       path: '/'
@@ -1836,6 +1856,7 @@ const rootRouteChildren: RootRouteChildren = {
   UnauthorizedRoute: UnauthorizedRoute,
   UploadRoute: UploadRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  OauthCallbackRoute: OauthCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
