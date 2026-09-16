@@ -116,6 +116,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     persistSession({ ...current, user });
   }, [persistSession]);
 
+  const completeOAuthLogin = useCallback(
+    async (tokens: Omit<AuthSession, "user">) => {
+      const user = await authService.currentUser();
+      persistSession({ ...tokens, user });
+    },
+    [persistSession],
+  );
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user: session?.user ?? null,
@@ -128,11 +136,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logout,
       refreshSession,
       refreshUser,
+      completeOAuthLogin,
       acknowledgeSessionExpiry: () => setSessionExpired(false),
       hasRole: (...roles: UserRole[]) =>
         Boolean(session?.user && roles.includes(session.user.role)),
     }),
-    [session, isInitializing, sessionExpired, login, register, logout, refreshSession, refreshUser],
+    [
+      session,
+      isInitializing,
+      sessionExpired,
+      login,
+      register,
+      logout,
+      refreshSession,
+      refreshUser,
+      completeOAuthLogin,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

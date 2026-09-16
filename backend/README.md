@@ -43,6 +43,31 @@ All configuration comes from environment variables — nothing is hardcoded. Cop
 | `JWT_SECRET` | Base64, ≥ 64 bytes (`openssl rand -base64 64`) |
 | `JWT_ACCESS_TOKEN_EXPIRATION` / `JWT_REFRESH_TOKEN_EXPIRATION` | ISO-8601 durations (`PT15M`, `P7D`) |
 | `CORS_ALLOWED_ORIGINS` | Comma separated frontend origins |
+| `FRONTEND_BASE_URL` | Public frontend URL used in verification and password-reset links |
+
+### Google and GitHub sign-in
+
+OAuth sign-in is enabled when the provider client variables are configured. Add these Render
+environment variables (never commit the secrets):
+
+```text
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID=...
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET=...
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_SCOPE=openid,profile,email
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENT_ID=...
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_CLIENT_SECRET=...
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GITHUB_SCOPE=read:user,user:email
+```
+
+Register these callback URLs with the providers:
+
+```text
+https://velorix-sentinel-backend.onrender.com/login/oauth2/code/google
+https://velorix-sentinel-backend.onrender.com/login/oauth2/code/github
+```
+
+The frontend starts OAuth through `/api/oauth2/authorization/{provider}` and receives the
+short-lived access token in the callback URL fragment, so it is not sent in HTTP referrers.
 | `SERVER_PORT`, `LOG_LEVEL_APP`, `JPA_DDL_AUTO` | Runtime tuning |
 
 ## Database

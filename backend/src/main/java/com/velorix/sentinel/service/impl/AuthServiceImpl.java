@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -142,6 +143,33 @@ public class AuthServiceImpl implements AuthService {
 
         activityLogService.success(user, ActivityType.LOGIN_SUCCESS, "Successful sign-in");
         return issueSession(user, request.rememberMe());
+    }
+
+    @Override
+    @Transactional
+    public AuthResponse loginWithOAuth(String email, String firstName, String lastName) {
+        String normalizedEmail = normalizeEmail(email);
+        if (normalizedEmail == null || normalizedEmail.isBlank()) {
+            throw new UnauthorizedException("The identity provider did not return an email address");
+        }
+
+        User user = userRepository.findByEmailIgnoreCase(normalizedEmail).orElseGet(() ->
+                userRepository.save(User.builder()
+                        .firstName(firstName == null || firstName.isBlank() ? "Velorix" : firstName.trim())
+                        .lastName(lastName == null || lastName.isBlank() ? "User" : lastName.trim())
+                        .email(normalizedEmail)
+                        .password(passwordEncoder.encode(UUID.randomUUID().toString()))
+                        .role(Role.USER)
+                        .verified(true)
+                        .active(true)
+                        .build()));
+
+        if (!user.isActive()) {
+            throw new UnauthorizedException("This account has been deactivated");
+        }
+        user.setVerified(true);
+        activityLogService.success(user, ActivityType.LOGIN_SUCCESS, "Successful social sign-in");
+        return issueSession(user, true);
     }
 
     @Override
