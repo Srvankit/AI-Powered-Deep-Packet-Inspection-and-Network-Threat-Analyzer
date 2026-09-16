@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import type { AuthUser, LoginRequest, RegisterRequest, UserRole } from "@/types/auth";
+import type { AuthSession, AuthUser, LoginRequest, RegisterRequest, UserRole } from "@/types/auth";
 
 export interface AuthContextValue {
   user: AuthUser | null;
@@ -17,6 +17,7 @@ export interface AuthContextValue {
   /** Exchange the refresh token for a fresh session. */
   refreshSession: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  completeOAuthLogin: (tokens: Omit<AuthSession, "user">) => Promise<void>;
   hasRole: (...roles: UserRole[]) => boolean;
   acknowledgeSessionExpiry: () => void;
 }

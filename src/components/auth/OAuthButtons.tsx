@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { API_BASE_URL } from "@/utils/apiConfig";
 
 /**
  * OAuth entry points.
  *
- * Placeholders until the backend exposes the provider redirect endpoints —
- * they are rendered disabled rather than pretending to sign anyone in.
+ * Provider redirects are handled by Spring Security on the backend.
  */
 const providers = [
   {
@@ -49,9 +49,10 @@ export function OAuthButtons({ action = "Continue" }: { action?: string }) {
             key={p.id}
             type="button"
             variant="outline"
-            disabled
-            title="Single sign-on is not enabled yet"
             className="w-full"
+            onClick={() => {
+              window.location.assign(`${API_BASE_URL}/oauth2/authorization/${p.id}`);
+            }}
           >
             {p.icon}
             {action} with {p.label}
@@ -59,7 +60,7 @@ export function OAuthButtons({ action = "Continue" }: { action?: string }) {
         ))}
       </div>
       <p className="text-center text-[11px] text-muted-foreground">
-        Single sign-on becomes available once your identity provider is connected.
+        Sign in securely with your existing Google or GitHub account.
       </p>
     </div>
   );

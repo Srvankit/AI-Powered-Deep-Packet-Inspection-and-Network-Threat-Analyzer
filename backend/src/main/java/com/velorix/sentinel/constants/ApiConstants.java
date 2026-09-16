@@ -22,6 +22,8 @@ public final class ApiConstants {
 
     public static final String[] PUBLIC_ENDPOINTS = {
             PUBLIC_AUTH_PATTERN,
+            API_ROOT + "/oauth2/**",
+            "/login/oauth2/**",
             HEALTH_BASE + "/**",
             "/actuator/health",
             "/actuator/health/**",

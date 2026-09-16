@@ -5,6 +5,7 @@ import com.velorix.sentinel.constants.SecurityConstants;
 import com.velorix.sentinel.security.JwtAccessDeniedHandler;
 import com.velorix.sentinel.security.JwtAuthenticationEntryPoint;
 import com.velorix.sentinel.security.JwtAuthenticationFilter;
+import com.velorix.sentinel.security.OAuth2LoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.config.Customizer;
+import org.springframework.beans.factory.ObjectProvider;
 
 /**
  * Stateless JWT security configuration.
@@ -35,21 +39,27 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final ObjectProvider<ClientRegistrationRepository> clientRegistrations;
+    private final OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
 
     public SecurityConfig(
             JwtAuthenticationFilter jwtAuthenticationFilter,
             JwtAuthenticationEntryPoint authenticationEntryPoint,
             JwtAccessDeniedHandler accessDeniedHandler,
-            CorsConfigurationSource corsConfigurationSource) {
+            CorsConfigurationSource corsConfigurationSource,
+            ObjectProvider<ClientRegistrationRepository> clientRegistrations,
+            OAuth2LoginSuccessHandler oauth2LoginSuccessHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
         this.corsConfigurationSource = corsConfigurationSource;
+        this.clientRegistrations = clientRegistrations;
+        this.oauth2LoginSuccessHandler = oauth2LoginSuccessHandler;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        var security = http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -61,8 +71,13 @@ public class SecurityConfig {
                         .requestMatchers(ApiConstants.PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(ApiConstants.PROTECTED_PATTERN).authenticated()
                         .anyRequest().authenticated())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        if (clientRegistrations.getIfAvailable() != null) {
+            security.oauth2Login(oauth -> oauth
+                    .authorizationEndpoint(endpoint -> endpoint.baseUri(ApiConstants.API_ROOT + "/oauth2/authorization"))
+                    .successHandler(oauth2LoginSuccessHandler));
+        }
+        return security.build();
     }
 
     @Bean

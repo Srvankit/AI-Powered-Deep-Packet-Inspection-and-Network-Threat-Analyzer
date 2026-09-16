@@ -2,6 +2,7 @@ package com.velorix.sentinel.config;
 
 import com.velorix.sentinel.config.properties.CorsProperties;
 import java.util.List;
+import java.util.stream.Stream;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -9,7 +10,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
- * CORS policy driven entirely by environment configuration.
+ * CORS policy driven by environment configuration plus the production console origin.
  */
 @Configuration
 public class CorsConfig {
@@ -23,10 +24,15 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        List<String> allowedOrigins = properties.allowedOrigins().stream()
+        List<String> configuredOrigins = Stream.concat(
+                        properties.allowedOrigins().stream(),
+                        Stream.of("https://velorixsentinel.netlify.app"))
+                .distinct()
+                .toList();
+        List<String> allowedOrigins = configuredOrigins.stream()
                 .filter(origin -> !origin.contains("*"))
                 .toList();
-        List<String> allowedOriginPatterns = properties.allowedOrigins().stream()
+        List<String> allowedOriginPatterns = configuredOrigins.stream()
                 .filter(origin -> origin.contains("*"))
                 .toList();
         configuration.setAllowedOrigins(allowedOrigins);
