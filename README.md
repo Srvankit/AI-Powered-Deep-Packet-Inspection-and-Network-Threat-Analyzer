@@ -77,7 +77,7 @@ npm i
 npm run dev
 ```
 
-`VITE_API_BASE_URL` should include the `/api` context path. On Netlify, set it to `/api` to use the same-origin proxy to Render and avoid browser CORS preflight failures. For local development use `http://localhost:8081/api`; direct production access is `https://velorix-sentinel-backend.onrender.com/api`.
+`VITE_API_BASE_URL` should include the `/api` context path. On Netlify, set it to `https://velorix-sentinel-backend.onrender.com/api`; the backend allows the Netlify origin and handles credentialed JSON preflight requests directly. For local development use `http://localhost:8081/api`.
 
 
 ## Running the stack locally

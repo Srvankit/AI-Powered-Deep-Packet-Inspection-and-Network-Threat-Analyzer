@@ -1,9 +1,8 @@
 /**
  * Centralised API configuration.
  *
- * The frontend and backend are deployed independently (local, Render, Railway,
- * production), so the API origin is ALWAYS taken from `VITE_API_BASE_URL` and is
- * never hardcoded or inferred from the page origin.
+ * The frontend and backend are deployed independently, so the API origin is
+ * taken from `VITE_API_BASE_URL` and never inferred from the page origin.
  *
  * This module resolves that value once, validates it, and reports a precise
  * problem so the UI can render a professional configuration message instead of
@@ -56,10 +55,10 @@ export function resolveApiConfig(rawValue: string | undefined, isRemoteHost: boo
   const configured = rawValue?.trim();
 
   if (!configured) {
-    // Netlify proxies /api to Render, keeping deployed browser requests same-origin.
-    const baseUrl = isRemoteHost ? "/api" : DEFAULT_API_BASE_URL;
+    // Use the Render origin in production. Netlify's reverse proxy does not
+    // preserve browser preflight headers reliably for JSON authentication calls.
     return {
-      baseUrl,
+      baseUrl: DEFAULT_API_BASE_URL,
       isUsable: true,
       isRemoteHost,
       problem: null,
@@ -93,16 +92,6 @@ export function resolveApiConfig(rawValue: string | undefined, isRemoteHost: boo
   }
 
   const baseUrl = configured.replace(/\/+$/, "");
-
-  // Keep the deployed Netlify app on its same-origin proxy even when an older
-  // build-time variable still contains the direct Render URL.
-  if (
-    isRemoteHost &&
-    parsed.hostname === "velorix-sentinel-backend.onrender.com" &&
-    parsed.pathname.replace(/\/+$/, "") === "/api"
-  ) {
-    return { baseUrl: "/api", isUsable: true, isRemoteHost, problem: null };
-  }
 
   // A remotely served frontend can never reach a backend on the viewer's machine.
   if (isRemoteHost && isLocalHostname(parsed.hostname)) {
