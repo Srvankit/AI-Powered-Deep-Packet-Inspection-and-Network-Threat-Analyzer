@@ -13,6 +13,8 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
+# Render web services detect the application on this exposed port.
+ENV SERVER_PORT=10000
 EXPOSE 10000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -12,15 +12,16 @@ import java.nio.charset.StandardCharsets;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final AuthService authService;
+    private final ObjectProvider<AuthService> authService;
     private final AppProperties appProperties;
 
-    public OAuth2LoginSuccessHandler(AuthService authService, AppProperties appProperties) {
+    public OAuth2LoginSuccessHandler(ObjectProvider<AuthService> authService, AppProperties appProperties) {
         this.authService = authService;
         this.appProperties = appProperties;
     }
@@ -40,7 +41,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             lastName = parts.length > 1 ? parts[1] : "";
         }
 
-        AuthResponse session = authService.loginWithOAuth(email, firstName, lastName);
+        AuthResponse session = authService.getObject().loginWithOAuth(email, firstName, lastName);
         String target = appProperties.frontendBaseUrl() + "/oauth/callback"
                 + "#accessToken=" + encode(session.accessToken())
                 + "&refreshToken=" + encode(session.refreshToken());

@@ -39,7 +39,9 @@ spring:
       write-dates-as-timestamps: false
 
 server:
-  port: ${PORT:8081}
+  # Render injects PORT when available; Docker defaults to the exposed web port.
+  # Local development remains on 8081 unless PORT or SERVER_PORT is overridden.
+  port: ${PORT:${SERVER_PORT:8081}}
   error:
     include-message: never
     include-stacktrace: never
