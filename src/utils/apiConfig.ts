@@ -120,4 +120,4 @@ export const apiConfig: ApiConfig = resolveApiConfig(
 
 export const API_BASE_URL = apiConfig.baseUrl;
 /** Generous: the hosted API may be cold-starting on its first request. */
-export const API_TIMEOUT_MS = 60_000;
+export const API_TIMEOUT_MS = 30_000;

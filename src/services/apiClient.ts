@@ -98,7 +98,8 @@ export function toApiError(error: unknown): ApiError {
     }
 
     const unreachable =
-      status === 0 || (!reachedApi && (status === 404 || status === 502 || status >= 500));
+      status === 0 || status === 502 || status === 503 || status === 504 ||
+      (!reachedApi && (status === 404 || status >= 500));
 
     return {
       status,
@@ -106,7 +107,9 @@ export function toApiError(error: unknown): ApiError {
         ? "API_UNREACHABLE"
         : (details.find((detail) => detail.code)?.code ?? `HTTP_${status}`),
       message: unreachable
-        ? "Unable to reach the Velorix Sentinel API. Make sure the backend is running and VITE_API_BASE_URL points at it."
+        ? status === 504
+          ? "The API did not respond in time. The backend may be starting up; please try again."
+          : "Unable to reach the Velorix Sentinel API. Make sure the backend is running and VITE_API_BASE_URL points at it."
         : (payload?.message ?? axiosError.message),
       fieldErrors: Object.keys(fieldErrors).length > 0 ? fieldErrors : undefined,
     };

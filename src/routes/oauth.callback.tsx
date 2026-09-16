@@ -31,7 +31,12 @@ function OAuthCallbackPage() {
       accessTokenExpiresAt: "",
       refreshTokenExpiresAt: "",
     };
-    void completeOAuthLogin(session).then(() => navigate({ to: ROUTES.dashboard, replace: true }));
+    void completeOAuthLogin(session)
+      .then(() => navigate({ to: ROUTES.dashboard, replace: true }))
+      .catch(() => {
+        window.history.replaceState(null, "", window.location.pathname);
+        void navigate({ to: ROUTES.login, replace: true });
+      });
   }, [completeOAuthLogin, navigate]);
 
   return (
