@@ -27,16 +27,14 @@ public class CorsConfig {
         List<String> configuredOrigins = Stream.concat(
                         properties.allowedOrigins().stream(),
                         Stream.of("https://velorixsentinel.netlify.app"))
+                .map(String::trim)
+                .map(origin -> origin.endsWith("/") ? origin.substring(0, origin.length() - 1) : origin)
+                .filter(origin -> !origin.isBlank())
                 .distinct()
                 .toList();
-        List<String> allowedOrigins = configuredOrigins.stream()
-                .filter(origin -> !origin.contains("*"))
-                .toList();
-        List<String> allowedOriginPatterns = configuredOrigins.stream()
-                .filter(origin -> origin.contains("*"))
-                .toList();
-        configuration.setAllowedOrigins(allowedOrigins);
-        configuration.setAllowedOriginPatterns(allowedOriginPatterns);
+        // Use patterns for every entry. Spring treats exact values in this list
+        // as exact matches and handles wildcard entries correctly with credentials.
+        configuration.setAllowedOriginPatterns(configuredOrigins);
         configuration.setAllowedMethods(properties.allowedMethods());
         configuration.setAllowedHeaders(properties.allowedHeaders());
         configuration.setExposedHeaders(properties.exposedHeaders());
