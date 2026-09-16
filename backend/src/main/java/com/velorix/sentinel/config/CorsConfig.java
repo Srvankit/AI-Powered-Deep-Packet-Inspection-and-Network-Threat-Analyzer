@@ -1,6 +1,7 @@
 package com.velorix.sentinel.config;
 
 import com.velorix.sentinel.config.properties.CorsProperties;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -22,7 +23,14 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(properties.allowedOrigins());
+        List<String> allowedOrigins = properties.allowedOrigins().stream()
+                .filter(origin -> !origin.contains("*"))
+                .toList();
+        List<String> allowedOriginPatterns = properties.allowedOrigins().stream()
+                .filter(origin -> origin.contains("*"))
+                .toList();
+        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.setAllowedOriginPatterns(allowedOriginPatterns);
         configuration.setAllowedMethods(properties.allowedMethods());
         configuration.setAllowedHeaders(properties.allowedHeaders());
         configuration.setExposedHeaders(properties.exposedHeaders());

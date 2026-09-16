@@ -24,9 +24,13 @@ public record CorsProperties(
                 "http://localhost:5173",
                 "http://localhost:3000",
                 "https://velorixsentinel.netlify.app",
+                "https://*.netlify.app",
                 "https://*.lovable.app",
                 "https://*.lovableproject.com")
-                : List.copyOf(allowedOrigins);
+                : allowedOrigins.stream()
+                .map(String::trim)
+                .filter(origin -> !origin.isBlank())
+                .toList();
         allowedMethods = allowedMethods == null || allowedMethods.isEmpty()
                 ? List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 : List.copyOf(allowedMethods);
