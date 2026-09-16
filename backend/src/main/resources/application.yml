@@ -107,6 +107,12 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+  health:
+    # Render's liveness probe must only verify that the web process is alive.
+    # Database readiness is exercised by the authenticated application paths
+    # and must not prevent the container from opening its port.
+    db:
+      enabled: false
 
 logging:
   level:

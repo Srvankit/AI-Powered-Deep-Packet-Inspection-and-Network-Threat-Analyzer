@@ -45,6 +45,10 @@ All configuration comes from environment variables — nothing is hardcoded. Cop
 | `CORS_ALLOWED_ORIGINS` | Comma separated frontend origins |
 | `FRONTEND_BASE_URL` | Public frontend URL used in verification and password-reset links |
 
+For Render, configure the web service health check path as `/api/health` (or
+`/actuator/health`). Both endpoints are public, lightweight liveness checks and
+must return HTTP 200 before Render keeps the service running.
+
 ### Google and GitHub sign-in
 
 OAuth sign-in is enabled when the provider client variables are configured. Add these Render
