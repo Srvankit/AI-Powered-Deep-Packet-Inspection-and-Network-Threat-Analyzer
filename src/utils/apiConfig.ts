@@ -56,9 +56,10 @@ export function resolveApiConfig(rawValue: string | undefined, isRemoteHost: boo
   const configured = rawValue?.trim();
 
   if (!configured) {
-    // Fall back to the deployed backend so the app never depends on a local API.
+    // Netlify proxies /api to Render, keeping deployed browser requests same-origin.
+    const baseUrl = isRemoteHost ? "/api" : DEFAULT_API_BASE_URL;
     return {
-      baseUrl: DEFAULT_API_BASE_URL,
+      baseUrl,
       isUsable: true,
       isRemoteHost,
       problem: null,
@@ -92,6 +93,16 @@ export function resolveApiConfig(rawValue: string | undefined, isRemoteHost: boo
   }
 
   const baseUrl = configured.replace(/\/+$/, "");
+
+  // Keep the deployed Netlify app on its same-origin proxy even when an older
+  // build-time variable still contains the direct Render URL.
+  if (
+    isRemoteHost &&
+    parsed.hostname === "velorix-sentinel-backend.onrender.com" &&
+    parsed.pathname.replace(/\/+$/, "") === "/api"
+  ) {
+    return { baseUrl: "/api", isUsable: true, isRemoteHost, problem: null };
+  }
 
   // A remotely served frontend can never reach a backend on the viewer's machine.
   if (isRemoteHost && isLocalHostname(parsed.hostname)) {
