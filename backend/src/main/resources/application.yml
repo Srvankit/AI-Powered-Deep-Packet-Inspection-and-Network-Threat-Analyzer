@@ -29,9 +29,12 @@ spring:
     show-sql: ${JPA_SHOW_SQL:false}
 
   flyway:
-    # A broken Render database configuration should fail quickly and visibly.
+    enabled: ${FLYWAY_ENABLED:true}
+    # A broken database configuration should fail quickly and visibly.
     connect-retries: ${FLYWAY_CONNECT_RETRIES:1}
     connect-retries-interval: ${FLYWAY_CONNECT_RETRIES_INTERVAL:1}
+    validate-on-migrate: true
+    clean-disabled: true
 
   servlet:
     multipart:

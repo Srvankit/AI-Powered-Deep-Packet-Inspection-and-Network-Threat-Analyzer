@@ -24,7 +24,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ProductionCorsFilter extends OncePerRequestFilter {
 
-    private static final String PRODUCTION_ORIGIN = "https://velorixsentinel.netlify.app";
     private final CorsProperties properties;
 
     public ProductionCorsFilter(CorsProperties properties) {
@@ -55,9 +54,6 @@ public class ProductionCorsFilter extends OncePerRequestFilter {
     }
 
     private boolean isAllowedOrigin(String origin) {
-        if (PRODUCTION_ORIGIN.equalsIgnoreCase(origin)) {
-            return true;
-        }
         return properties.allowedOrigins().stream().anyMatch(configured -> matches(configured, origin));
     }
 
