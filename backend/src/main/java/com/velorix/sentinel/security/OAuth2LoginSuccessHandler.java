@@ -44,7 +44,10 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         AuthResponse session = authService.getObject().loginWithOAuth(email, firstName, lastName);
         String target = appProperties.frontendBaseUrl() + "/oauth/callback"
                 + "#accessToken=" + encode(session.accessToken())
-                + "&refreshToken=" + encode(session.refreshToken());
+                + "&refreshToken=" + encode(session.refreshToken())
+                + "&tokenType=" + encode(session.tokenType())
+                + "&accessTokenExpiresAt=" + encode(session.accessTokenExpiresAt().toString())
+                + "&refreshTokenExpiresAt=" + encode(session.refreshTokenExpiresAt().toString());
         clearAuthenticationAttributes(request);
         getRedirectStrategy().sendRedirect(request, response, target);
     }

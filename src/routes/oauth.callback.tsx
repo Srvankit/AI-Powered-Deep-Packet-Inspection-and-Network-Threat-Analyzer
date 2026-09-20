@@ -18,6 +18,8 @@ function OAuthCallbackPage() {
     const params = new URLSearchParams(window.location.hash.slice(1));
     const accessToken = params.get("accessToken");
     const refreshToken = params.get("refreshToken");
+    const accessTokenExpiresAt = params.get("accessTokenExpiresAt") ?? "";
+    const refreshTokenExpiresAt = params.get("refreshTokenExpiresAt") ?? "";
 
     if (!accessToken || !refreshToken) {
       void navigate({ to: ROUTES.login, replace: true });
@@ -28,8 +30,8 @@ function OAuthCallbackPage() {
       accessToken,
       refreshToken,
       tokenType: "Bearer",
-      accessTokenExpiresAt: "",
-      refreshTokenExpiresAt: "",
+      accessTokenExpiresAt,
+      refreshTokenExpiresAt,
     };
     void completeOAuthLogin(session)
       .then(() => navigate({ to: ROUTES.dashboard, replace: true }))

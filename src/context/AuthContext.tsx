@@ -17,6 +17,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isInitializing, setIsInitializing] = useState(true);
   const [sessionExpired, setSessionExpired] = useState(false);
   const sessionRef = useRef<AuthSession | null>(null);
+  const restoredSessionRef = useRef<string | null>(null);
 
   sessionRef.current = session;
 
@@ -38,8 +39,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const restored = storage.get<AuthSession>(STORAGE_KEYS.session);
     sessionRef.current = restored;
     setSession(restored);
+    restoredSessionRef.current = restored?.refreshToken ?? null;
     setIsInitializing(false);
   }, []);
+
+  // Do not treat stale local storage as an authenticated session. This also
+  // catches accounts revoked while the browser was offline.
+  useEffect(() => {
+    if (isInitializing || !session || restoredSessionRef.current !== session.refreshToken) return;
+    restoredSessionRef.current = null;
+    void authService.currentUser()
+      .then((user) => persistSession({ ...session, user }))
+      .catch(() => {
+        clearSession();
+        setSessionExpired(true);
+      });
+  }, [isInitializing, session, persistSession, clearSession]);
 
   // Wire the HTTP client once; it reads the live session through the ref.
   useEffect(() => {
