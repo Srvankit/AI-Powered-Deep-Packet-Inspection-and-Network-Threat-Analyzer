@@ -39,7 +39,8 @@ All configuration comes from environment variables — nothing is hardcoded. Cop
 
 | Variable | Purpose |
 | --- | --- |
-| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | PostgreSQL connection |
+| `SUPABASE_DB_URL`, `SUPABASE_DB_USERNAME`, `SUPABASE_DB_PASSWORD` | Supabase PostgreSQL connection (preferred for Render) |
+| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | Fallback PostgreSQL connection for local development |
 | `JWT_SECRET` | A stable secret; preferably Base64 from `openssl rand -base64 64` |
 | `JWT_ACCESS_TOKEN_EXPIRATION` / `JWT_REFRESH_TOKEN_EXPIRATION` | ISO-8601 durations (`PT15M`, `P7D`) |
 | `CORS_ALLOWED_ORIGINS` | Comma separated frontend origins |
@@ -48,6 +49,25 @@ All configuration comes from environment variables — nothing is hardcoded. Cop
 For Render, configure the web service health check path as `/api/health` (or
 `/actuator/health`). Both endpoints are public, lightweight liveness checks and
 must return HTTP 200 before Render keeps the service running.
+
+### Supabase PostgreSQL
+
+The backend uses JPA and Flyway against PostgreSQL; Supabase works without an
+authentication-code rewrite. In the Supabase dashboard, open **Connect** and
+choose the **Session pooler** connection details. Use the host, port, database,
+username, and password to build a JDBC URL:
+
+```text
+SUPABASE_DB_URL=jdbc:postgresql://<pooler-host>:5432/postgres?sslmode=require
+SUPABASE_DB_USERNAME=postgres.<project-ref>
+SUPABASE_DB_PASSWORD=<supabase-database-password>
+```
+
+Use port `5432` (session pooler) for this Spring/JPA application. Do not use
+the Supabase `anon` key or `service_role` key as the database password, and do
+not paste either key into Render. Flyway creates the application's `users`,
+`refresh_tokens`, and `activity_logs` tables on the first deployment. Existing
+data is not copied automatically; export/import it separately if needed.
 
 ### Google and GitHub sign-in
 
