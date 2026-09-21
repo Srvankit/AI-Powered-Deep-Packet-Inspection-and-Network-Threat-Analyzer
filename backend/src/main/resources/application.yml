@@ -3,9 +3,11 @@ spring:
     name: velorix-sentinel-backend
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/velorix_sentinel}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:postgres}
+    # Supabase is standard PostgreSQL. Prefer SUPABASE_* in hosted deployments;
+    # DB_* remains supported for local development and other PostgreSQL hosts.
+    url: ${SUPABASE_DB_URL:${DB_URL:jdbc:postgresql://localhost:5432/velorix_sentinel}}
+    username: ${SUPABASE_DB_USERNAME:${DB_USERNAME:postgres}}
+    password: ${SUPABASE_DB_PASSWORD:${DB_PASSWORD:postgres}}
     driver-class-name: org.postgresql.Driver
     hikari:
       pool-name: velorix-pool
