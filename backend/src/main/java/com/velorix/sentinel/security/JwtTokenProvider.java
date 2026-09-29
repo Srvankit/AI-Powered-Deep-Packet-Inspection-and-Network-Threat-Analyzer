@@ -117,12 +117,12 @@ public class JwtTokenProvider {
     private static SecretKey resolveSigningKey(String secret) {
         if (secret == null || secret.isBlank()) {
             throw new IllegalStateException(
-                    "JWT_SECRET is required. Generate a base64 secret with at least 64 bytes before starting the backend.");
+                    "JWT_SECRET is missing. Set JWT_SECRET in your environment (base64, >=64 bytes).");
         }
         byte[] keyBytes = decode(secret);
         if (keyBytes.length < 64) {
             throw new IllegalStateException(
-                    "JWT_SECRET must decode to at least 64 bytes (use a random base64 value)");
+                    "JWT_SECRET is too short. It must decode to at least 64 bytes (512 bits).");
         }
         return Keys.hmacShaKeyFor(keyBytes);
     }

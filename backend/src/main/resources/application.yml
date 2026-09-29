@@ -20,8 +20,10 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      # Migration friendly: schema is owned by migrations, never by Hibernate.
-      ddl-auto: ${JPA_DDL_AUTO:validate}
+        # Flyway owns the schema. Hibernate must NOT validate or modify it.
+        # Setting ddl-auto to none prevents conflicts between Flyway migrations
+        # and Hibernate's entity-to-schema mapping expectations.
+        ddl-auto: ${JPA_DDL_AUTO:none}
     properties:
       hibernate:
         format_sql: true
@@ -37,6 +39,11 @@ spring:
     connect-retries-interval: ${FLYWAY_CONNECT_RETRIES_INTERVAL:1}
     validate-on-migrate: true
     clean-disabled: true
+    # Allow Flyway to start against a database that already contains the
+    # application tables (e.g. created manually or by an earlier version).
+    # Flyway treats the existing schema as the V1 baseline and records it
+    # in flyway_schema_history so subsequent migrations can be applied.
+    baseline-on-migrate: true
 
   servlet:
     multipart:

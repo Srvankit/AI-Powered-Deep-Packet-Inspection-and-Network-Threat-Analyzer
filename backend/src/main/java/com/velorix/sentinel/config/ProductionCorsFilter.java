@@ -62,11 +62,16 @@ public class ProductionCorsFilter extends OncePerRequestFilter {
         if (normalized.endsWith("/")) {
             normalized = normalized.substring(0, normalized.length() - 1);
         }
+        // Exact match for production origin
+        if (normalized.equalsIgnoreCase(origin)) {
+            return true;
+        }
+        // Wildcard patterns: "https://*.netlify.app"
         if (normalized.contains("*")) {
             String suffix = normalized.substring(normalized.indexOf('*') + 1);
             return origin.toLowerCase(Locale.ROOT).endsWith(suffix.toLowerCase(Locale.ROOT));
         }
-        return normalized.equalsIgnoreCase(origin);
+        return false;
     }
 
     private String requestedHeaders(HttpServletRequest request) {

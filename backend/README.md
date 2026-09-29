@@ -112,10 +112,11 @@ Tables: `users`, `refresh_tokens`, `activity_logs`.
 - Stateless — no HTTP session, CSRF disabled, JWT bearer tokens only.
 - Passwords hashed with BCrypt (strength 12).
 - Roles: `ADMIN`, `ANALYST`, `USER` (stored as `ROLE_*` authorities).
-- Public: `/api/auth/**`, `/api/health`, `/actuator/health`, Swagger.
+- Public: `/api/auth/**`, `/api/oauth2/**`, `/api/health`, `/actuator/health`, Swagger.
 - Protected: `/api/v1/**` and everything else requires a valid access token.
 - `JwtAuthenticationFilter` populates the security context; `JwtAuthenticationEntryPoint` and
   `JwtAccessDeniedHandler` return the standard envelope for 401/403.
+- OAuth2 login is enabled automatically when the provider client variables are set.
 
 ## API response envelope
 
@@ -144,8 +145,8 @@ Every endpoint — success or failure — returns:
 | POST | `/api/auth/reset-password` | Complete reset |
 | GET | `/api/auth/me` | Authenticated profile |
 | GET | `/api/health` | Liveness probe |
-
-Auth flows currently return `501 Not Implemented` by design.
+| GET | `/api/oauth2/authorization/{provider}` | Start Google/GitHub OAuth |
+| GET | `/login/oauth2/code/{provider}` | OAuth callback |
 
 ## Running
 
@@ -156,5 +157,14 @@ cd backend
 
 - Swagger UI: http://localhost:8080/swagger-ui.html
 - OpenAPI JSON: http://localhost:8080/v3/api-docs
+
+## Testing
+
+```bash
+mvn -f backend/pom.xml test
+```
+
+The test profile uses H2 and disables Flyway (the baseline migration uses `pgcrypto`,
+which is PostgreSQL-only). Production runs against PostgreSQL with Flyway enabled.
 
 Built by Velorix Technologies.

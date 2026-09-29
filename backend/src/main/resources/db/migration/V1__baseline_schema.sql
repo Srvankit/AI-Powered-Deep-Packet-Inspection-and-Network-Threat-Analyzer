@@ -2,6 +2,9 @@
 -- Hibernate runs with ddl-auto=validate; this script is the source of truth.
 -- Apply with Flyway/Liquibase or psql -f before starting the application.
 
+-- PostgreSQL: pgcrypto is required for gen_random_uuid().
+-- H2 (test profile): pgcrypto is not available; use RANDOM_UUID() instead.
+-- Flyway handles this by checking if the extension exists.
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS users (
